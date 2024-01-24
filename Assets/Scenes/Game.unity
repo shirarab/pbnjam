@@ -714,6 +714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JellyBall
       objectReference: {fileID: 0}
+    - target: {fileID: 4065156118817269429, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.09
@@ -3700,6 +3704,10 @@ PrefabInstance:
     - target: {fileID: 4065156118817269429, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_Name
       value: PenutBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065156118817269429, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.x

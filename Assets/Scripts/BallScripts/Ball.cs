@@ -35,20 +35,27 @@ public class Ball : MonoBehaviour
             var ball = GetComponent<SpriteRenderer>();
             if (lastPlayerHit == PlayerType.Jelly)
             {
-                ball.color = Color.red; 
+                ball.color = Color.red;
+                UpdateLayer(LayerMask.NameToLayer(BreadType.JellyBread.ToString()));
             }
             else if (lastPlayerHit == PlayerType.PeanutButter)
             {
-                ball.color = Color.yellow; 
+                ball.color = Color.yellow;
+                UpdateLayer(LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString()));
             }
         }
     }
-
+    
     void LaunchBall()
     {
         // Launch the ball in a random direction.
         float randomAngle = Random.Range(0, 360f);
         Vector2 launchDirection = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
         rb.velocity = launchDirection * speed;
+    }
+
+    private void UpdateLayer(int newLayer)
+    {
+        gameObject.layer = newLayer;
     }
 }

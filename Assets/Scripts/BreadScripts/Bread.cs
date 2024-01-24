@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum BreadType
+public enum BreadType
 {
     Bread,
     PeanutButterBread,
@@ -15,7 +14,7 @@ enum BreadType
 
 public class Bread : MonoBehaviour
 {
-    // COMPONENTS------------------------------------------
+    #region COMPONENTS
     [SerializeField] 
     private Rigidbody2D rigidBody;
     public Rigidbody2D RigidBody { get => rigidBody;}
@@ -28,11 +27,19 @@ public class Bread : MonoBehaviour
 
 
     private SpriteRenderer spriteRenderer;
-    // COMPONENTS------------------------------------------
+    #endregion
 
-
+    private Dictionary<int, BreadType> layersToBreadTypeDict;
 
     // STATS-----------------------------------------------
+    // Bread,
+    // PeanutButterBread,
+    // JellyBread,
+    // ToastBread
+    
+
+
+
     [SerializeField]
     BreadType currentBreadType;
     internal BreadType CurrentBreadType { get => currentBreadType; set => currentBreadType = value; }
@@ -47,27 +54,64 @@ public class Bread : MonoBehaviour
     [SerializeField]
     private Sprite currentSprite;
     public Sprite CurrentSprite { get => currentSprite; set => currentSprite = value; }
+
+
     // STATS-----------------------------------------------
 
     private void Start()
-     {
-    // Check if there is a SpriteRenderer component
-    spriteRenderer = GetComponent<SpriteRenderer>();
-    
-    // If not, add a SpriteRenderer component dynamically
-    if (!spriteRenderer)
     {
-        spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+        layersToBreadTypeDict = new()
+        {
+            { LayerMask.NameToLayer("Bread"), BreadType.Bread },
+            { LayerMask.NameToLayer("PeanutButterBread"), BreadType.PeanutButterBread },
+            { LayerMask.NameToLayer("JellyBread"), BreadType.JellyBread }
+        };
+
+        // Check if there is a SpriteRenderer component
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        gameObject.layer = LayerMask.NameToLayer("Bread");
+
+
+        // If not, add a SpriteRenderer component dynamically
+        if (!spriteRenderer)
+        {
+            spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+        }
+
+        // NOTE: defined in unity
+        currentSprite = breadSprites[(int)currentBreadType];
+        // Set the sprite on the SpriteRenderer
+        spriteRenderer.sprite = currentSprite;
     }
 
-    // NOTE: defined in unity
-    currentSprite = breadSprites[(int)currentBreadType];
-    // Set the sprite on the SpriteRenderer
-    spriteRenderer.sprite = currentSprite;
-    }
 
+
+    // TRIGER LOGIC------------------------
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Destroy(gameObject);
+        if (layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
+        {
+            updateBreadTypeAndSprite(other);
+            updateBreadLayer(other.gameObject.layer);
+        }
     }
+
+
+
+    void updateBreadTypeAndSprite(Collision2D other)
+    {
+        currentBreadType = layersToBreadTypeDict[other.gameObject.layer];
+        
+        currentSprite = breadSprites[(int)currentBreadType];
+        spriteRenderer.sprite = currentSprite;
+        updateBreadLayer(other.gameObject.layer);
+
+    }
+
+
+    void updateBreadLayer(int newLayer)
+    {
+        gameObject.layer = newLayer;
+    }
+    // TRIGER LOGIC------------------------
 }
