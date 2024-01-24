@@ -104,8 +104,8 @@ MonoBehaviour:
   currentBreadType: 0
   breadSprites:
   - {fileID: 21300000, guid: aa6a812beb5e4e3439d6161b720e73f4, type: 3}
-  - {fileID: 21300000, guid: 4d9ea1ff322e6274d81f994bd821a5e7, type: 3}
   - {fileID: 21300000, guid: f05fc0e55d7f700458c8642f06c58d58, type: 3}
+  - {fileID: 21300000, guid: 4d9ea1ff322e6274d81f994bd821a5e7, type: 3}
   currentSprite: {fileID: 0}
 --- !u!61 &2288875260262978396
 BoxCollider2D:

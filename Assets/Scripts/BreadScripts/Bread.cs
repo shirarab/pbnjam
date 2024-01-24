@@ -62,9 +62,9 @@ public class Bread : MonoBehaviour
     {
         layersToBreadTypeDict = new()
         {
-            { LayerMask.NameToLayer("Bread"), BreadType.Bread },
-            { LayerMask.NameToLayer("PeanutButterBread"), BreadType.PeanutButterBread },
-            { LayerMask.NameToLayer("JellyBread"), BreadType.JellyBread }
+            { LayerMask.NameToLayer(BreadType.Bread.ToString()), BreadType.Bread },
+            { LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString()), BreadType.PeanutButterBread },
+            { LayerMask.NameToLayer(BreadType.JellyBread.ToString()), BreadType.JellyBread }
         };
 
         // Check if there is a SpriteRenderer component
@@ -91,25 +91,25 @@ public class Bread : MonoBehaviour
     {
         if (layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
-            updateBreadTypeAndSprite(other);
-            updateBreadLayer(other.gameObject.layer);
+            Debug.Log($"new bread type: {layersToBreadTypeDict[other.gameObject.layer]}");
+            UpdateBreadTypeAndSprite(other);
         }
     }
 
 
 
-    void updateBreadTypeAndSprite(Collision2D other)
+    void UpdateBreadTypeAndSprite(Collision2D other)
     {
         currentBreadType = layersToBreadTypeDict[other.gameObject.layer];
         
         currentSprite = breadSprites[(int)currentBreadType];
         spriteRenderer.sprite = currentSprite;
-        updateBreadLayer(other.gameObject.layer);
+        UpdateBreadLayer(other.gameObject.layer);
 
     }
 
 
-    void updateBreadLayer(int newLayer)
+    void UpdateBreadLayer(int newLayer)
     {
         gameObject.layer = newLayer;
     }
