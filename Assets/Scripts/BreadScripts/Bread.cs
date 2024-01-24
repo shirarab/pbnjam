@@ -89,9 +89,8 @@ public class Bread : MonoBehaviour
     // TRIGER LOGIC------------------------
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
+        if (layersToBreadTypeDict != null && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
-            Debug.Log($"new bread type: {layersToBreadTypeDict[other.gameObject.layer]}");
             UpdateBreadTypeAndSprite(other);
         }
     }
