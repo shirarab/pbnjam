@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    Player player;
-
-    // PLAYER FIELDS ------------------------------
+    
+    #region PLAYER FIELDS ------------------------------
     [SerializeField] 
     PlayerComponents components;
     public PlayerComponents Components { get => components;}
@@ -16,82 +15,118 @@ public class Player : MonoBehaviour
     [SerializeField] 
     PlayerStats stats;
     public PlayerStats Stats { get => stats;}
-    // PLAYER FIELDS ------------------------------
-
-
-
+    #endregion
     
+
+    #region METHOD FLAGS -------------------------------
+    private bool twoKeysFlag;
+    #endregion
+    
+
+    #region STATS SETTERS ------------------------------
     private void setDirection(int yDirection, LastDirection newDirection)
     {
         Stats.MoveY = yDirection;
         Stats.LastDirection = newDirection;
+        Stats.PlayerSpeed = Stats.StartSpeed;
     }
 
+    private void setMoveYandPlayerSpeed(int yDirection)
+    {
+        Stats.MoveY = yDirection;
+        Stats.PlayerSpeed = Stats.StartSpeed * Stats.DirctChangeSpeed;
+    }
+    #endregion
 
+    
+    #region INPUT HANDLE -------------------------------
     public void HandleInput()
     {
-        // Debug.Log("enter -> HandleInput");
+        
         if(Input.GetKey(Stats.KeyUp) && Input.GetKey(Stats.KeyDown))
         {
+            twoKeysFlag = true;
             if(Stats.LastDirection == LastDirection.up)
             {
-                Stats.MoveY = -1;
+                setMoveYandPlayerSpeed(-1);
             }
-            else
+            if(Stats.LastDirection == LastDirection.down)
             {
-                Stats.MoveY = 1;               
+                setMoveYandPlayerSpeed(1);
             }
         }
 
         else if(Input.GetKey(Stats.KeyUp))
         {
-            
-            setDirection(1,  LastDirection.up);
+            if(Stats.LastDirection != LastDirection.up || twoKeysFlag)
+            {
+                setDirection(1,  LastDirection.up);
+                twoKeysFlag = false;
+            }
         }
         else if(Input.GetKey(Stats.KeyDown))
         {
-            setDirection(-1, LastDirection.down);
+            if(Stats.LastDirection != LastDirection.down || twoKeysFlag)
+            {
+                setDirection(-1, LastDirection.down);
+                twoKeysFlag = false;
+            }
         } 
         
         else
         {
+            Stats.PlayerSpeed = Stats.StartSpeed;
             Stats.MoveY = 0;
             Stats.LastDirection = LastDirection.place;
         } 
 
         // only horizontal move -> Y cordinate only 
-    Stats.Direction = 
-        new Vector2(Components.RigidBody.velocity.x, Stats.MoveY);
+        Stats.Direction = 
+            new Vector2(Components.RigidBody.velocity.x, Stats.MoveY);
     }
+    #endregion
 
     
 
-
+    #region MOVE ---------------------------------------
     public void Move(Transform transform)
-{
+    {
+
     Components.RigidBody.velocity = 
-        new Vector2(Components.RigidBody.velocity.x, Stats.Direction.y * Stats.playerSpeed * Time.deltaTime);
+        new Vector2(Components.RigidBody.velocity.x, Stats.Direction.y * Stats.PlayerSpeed * Time.deltaTime);
+    
 
     if (Stats.Direction.y != 0)
     {
+        float speedFlag = (Stats.PlayerSpeed*Stats.PlayerAccelRate);
+
+        if(speedFlag <= Stats.MaxSpeed)
+        {
+            Stats.PlayerSpeed *= Stats.PlayerAccelRate;
+        }
+        // add the player speed the diff betwin maxSpeed and playerSpeed
+        else
+        {
+            Stats.PlayerSpeed = Stats.MaxSpeed;
+        }
         // Handle move direction image for player
         // Assuming you don't want to flip along the Y-axis
         transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
     }
-}
+    }
+    #endregion
 
 
 
-
-
-
-
+    #region START, UPDATE --------------------------------
     // Start is called before the first frame update
     void Start()
     {
-        stats.playerSpeed = stats.Speed; 
-        stats.MoveY = 0; 
+        Stats.PlayerSpeed = Stats.StartSpeed; 
+        Stats.MoveY = 0; 
+        twoKeysFlag = false;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -99,4 +134,5 @@ public class Player : MonoBehaviour
         HandleInput();//procesinput||parser
         Move(transform);  
     }
+    #endregion
 }
