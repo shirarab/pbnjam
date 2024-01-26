@@ -32,30 +32,30 @@ public class PlayerStats
     #region Player Speed
 
     [SerializeField] //TODO: delete line after setting the idle start speed
-    private float startSpeed;
+    private float startSpeed = 5;
     public float StartSpeed { get => startSpeed; set => startSpeed = value; }
 
 
 
     [SerializeField]
-    private float Maxspeed;
+    private float Maxspeed = 1000;
     public float MaxSpeed { get => Maxspeed;}
 
 
     // [SerializeField]
-    private float playerSpeed;
+    private float playerSpeed = 0;
     public float PlayerSpeed{get; set;}
 
 
     
 
     [SerializeField]
-    private float playerAccelRate;
+    private float playerAccelRate = 2;
     public float PlayerAccelRate { get => playerAccelRate; set => playerAccelRate = value; }
 
 
     [SerializeField]
-    private float dirctChangeSpeed;
+    private float dirctChangeSpeed = 150;
     public float DirctChangeSpeed { get => dirctChangeSpeed; set => dirctChangeSpeed = value; }
 
 
