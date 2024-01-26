@@ -6,43 +6,46 @@ namespace BreadScripts
     public class BreadGrid : MonoBehaviour
     {
         [SerializeField] private Bread breadPrefab;
-        [SerializeField] private int columns = 5;
+        [SerializeField] private int numberOfColumns = 5;
         [SerializeField] private float margin = 0.1f;
+        [SerializeField] private Vector2 breadSize = new(1f, 1f);
+        [SerializeField] private Vector3 breadScale = new(1.5f, 1.5f);
 
-        private float _screenHeight;
-        private int _rows;
-        private const int SCREEN_REF_HEIGHT = 1080;
-        
-        private void Start()
-        {
-            _screenHeight = Camera.main != null? Camera.main.orthographicSize * 2f : SCREEN_REF_HEIGHT;
-        }
+        private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()
         {
-            var localScale = breadPrefab.transform.localScale;
-            var x = localScale.x;
-            var y = localScale.y;
+            breadPrefab.transform.localScale = breadScale;
             
-            float totalWidth = columns * (x + margin) - margin;
-            float startX = -totalWidth / 2f;
+            float startX = -(numberOfColumns - 1) * (breadSize.x + margin) / 2f; // same as: -(columns * (breadSize.x + margin)) / 2f + (breadSize.x + margin) / 2f;
+            float startY = CalculateStartingYPosition();
+            
+            int numberOfRows = CalculateNumberOfRows();
 
-            int rows = Mathf.FloorToInt(_screenHeight / (y + margin)) + 1; 
-
-            float totalHeight = rows * (y + margin) - margin;
-            float startY = totalHeight / 2f; 
-
-            for (int i = 0; i < columns; i++)
+            for (int col = 0; col < numberOfColumns; col++)
             {
-                for (int j = 0; j < rows; j++)
+                float x = startX + col * (breadSize.x + margin);
+
+                for (int row = 0; row < numberOfRows; row++)
                 {
-                    float xPos = startX + i * (x + margin);
-                    float yPos = startY - j * (y + margin);
-                    Instantiate(breadPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity, transform);
+                    float y = startY + row * (breadSize.y + margin);
+                    Instantiate(breadPrefab, new Vector3(x, y, 0f), Quaternion.identity);
                 }
             }
         }
 
-    }
+        private int CalculateNumberOfRows()
+        {
+            float screenHeight = Camera.main != null ? Camera.main.orthographicSize * 2f : SCREEN_HEIGHT;
+            return Mathf.FloorToInt(screenHeight / (breadSize.y + margin));
+        }
+        
+        private float CalculateStartingYPosition()
+        {
+            float centerY = Camera.main.transform.position.y;
+            float halfHeight = Camera.main.orthographicSize;
 
+            return centerY - halfHeight + (breadSize.y + margin) / 2f;
+        }
+    }
 }
