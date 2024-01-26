@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Player player;
-
+    
     #region PLAYER FIELDS ------------------------------
     [SerializeField] 
     PlayerComponents components;
@@ -18,7 +17,13 @@ public class Player : MonoBehaviour
     public PlayerStats Stats { get => stats;}
     #endregion
     
+
+    #region METHOD FLAGS -------------------------------
+    private bool twoKeysFlag;
+    #endregion
     
+
+    #region STATS SETTERS ------------------------------
     private void setDirection(int yDirection, LastDirection newDirection)
     {
         Stats.MoveY = yDirection;
@@ -26,43 +31,45 @@ public class Player : MonoBehaviour
         Stats.PlayerSpeed = Stats.StartSpeed;
     }
 
-
-
-    private void setMoveYandPlayerSpwwd(int yDirection)
+    private void setMoveYandPlayerSpeed(int yDirection)
     {
         Stats.MoveY = yDirection;
         Stats.PlayerSpeed = Stats.StartSpeed * Stats.DirctChangeSpeed;
     }
+    #endregion
 
-
-
+    
+    #region INPUT HANDLE -------------------------------
     public void HandleInput()
     {
         
         if(Input.GetKey(Stats.KeyUp) && Input.GetKey(Stats.KeyDown))
         {
+            twoKeysFlag = true;
             if(Stats.LastDirection == LastDirection.up)
             {
-                setMoveYandPlayerSpwwd(-1);
+                setMoveYandPlayerSpeed(-1);
             }
             if(Stats.LastDirection == LastDirection.down)
             {
-                setMoveYandPlayerSpwwd(1);
+                setMoveYandPlayerSpeed(1);
             }
         }
 
         else if(Input.GetKey(Stats.KeyUp))
         {
-            if(Stats.LastDirection != LastDirection.up)
+            if(Stats.LastDirection != LastDirection.up || twoKeysFlag)
             {
                 setDirection(1,  LastDirection.up);
+                twoKeysFlag = false;
             }
         }
         else if(Input.GetKey(Stats.KeyDown))
         {
-            if(Stats.LastDirection != LastDirection.down)
+            if(Stats.LastDirection != LastDirection.down || twoKeysFlag)
             {
                 setDirection(-1, LastDirection.down);
+                twoKeysFlag = false;
             }
         } 
         
@@ -77,8 +84,11 @@ public class Player : MonoBehaviour
         Stats.Direction = 
             new Vector2(Components.RigidBody.velocity.x, Stats.MoveY);
     }
+    #endregion
 
+    
 
+    #region MOVE ---------------------------------------
     public void Move(Transform transform)
     {
 
@@ -104,13 +114,17 @@ public class Player : MonoBehaviour
         transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
     }
     }
+    #endregion
 
 
+
+    #region START, UPDATE --------------------------------
     // Start is called before the first frame update
     void Start()
     {
         Stats.PlayerSpeed = Stats.StartSpeed; 
         Stats.MoveY = 0; 
+        twoKeysFlag = false;
     }
 
 
@@ -120,4 +134,5 @@ public class Player : MonoBehaviour
         HandleInput();//procesinput||parser
         Move(transform);  
     }
+    #endregion
 }
