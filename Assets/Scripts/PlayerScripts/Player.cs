@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,11 +16,21 @@ public class Player : MonoBehaviour
     [SerializeField] 
     PlayerStats stats;
     public PlayerStats Stats { get => stats;}
-    #endregion
-    
 
-    #region METHOD FLAGS -------------------------------
+
+    [SerializeField] 
+    private PlayerAnimator playerAnimator; // Added PlayerAnimator field
+    public PlayerAnimator PlayerAnimator { get => this.playerAnimator; set => this.playerAnimator = value; }
+    #endregion
+
+
+
+    #region METHOD FLAGS AND HELPERS ------------------
     private bool twoKeysFlag;
+    
+    [SerializeField] 
+    AnimationType animationHelper;
+    
     #endregion
     
 
@@ -117,7 +128,6 @@ public class Player : MonoBehaviour
     #endregion
 
 
-
     #region START, UPDATE --------------------------------
     // Start is called before the first frame update
     void Start()
@@ -125,6 +135,8 @@ public class Player : MonoBehaviour
         Stats.PlayerSpeed = Stats.StartSpeed; 
         Stats.MoveY = 0; 
         twoKeysFlag = false;
+        
+        playerAnimator.AnimationState = AnimationType.Idle;
     }
 
 
@@ -133,6 +145,13 @@ public class Player : MonoBehaviour
     {
         HandleInput();//procesinput||parser
         Move(transform);  
+        
+
+        if(playerAnimator.AnimationState != animationHelper)
+        {
+        playerAnimator.AnimationState = animationHelper;
+        playerAnimator.TriggerAnimation(playerAnimator.AnimationState);
+        }
     }
     #endregion
 }
