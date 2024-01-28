@@ -12,14 +12,13 @@ public class Player : MonoBehaviour
     public PlayerComponents Components { get => components;}
 
 
-
     [SerializeField] 
     PlayerStats stats;
     public PlayerStats Stats { get => stats;}
 
 
     [SerializeField] 
-    private PlayerAnimator playerAnimator; // Added PlayerAnimator field
+    private PlayerAnimator playerAnimator; 
     public PlayerAnimator PlayerAnimator { get => this.playerAnimator; set => this.playerAnimator = value; }
     #endregion
 
@@ -30,8 +29,8 @@ public class Player : MonoBehaviour
     
     [SerializeField] 
     AnimationType animationHelper;
-    private bool isPlayed;
-    
+    private bool isPlayed;//flag for checking if the hit abhmation played
+
     
     #endregion
     
@@ -152,7 +151,7 @@ public class Player : MonoBehaviour
         {
             PlayAnimaion(AnimationType.Hit);
         }
-        // PlayAnimaion(AnimationType.Idle);
+        
     }
 
     private void returnToIdleAnimation()
@@ -165,8 +164,7 @@ public class Player : MonoBehaviour
          Animator Panimator = playerAnimator.GetComponent<Animator>();
          AnimatorStateInfo stateInfo = Panimator.GetCurrentAnimatorStateInfo(0);
 
-        // TODO: chnge to "hit"
-        return stateInfo.IsName("PBhit") && stateInfo.normalizedTime >= 1.0f;
+        return stateInfo.IsName("hit") && stateInfo.normalizedTime >= 1.0f;
     }
     #endregion
 
@@ -193,6 +191,7 @@ public class Player : MonoBehaviour
         {
             isPlayed = isAnimationPlayed();
             if(isPlayed){returnToIdleAnimation();}
+            isPlayed = false;
         }
         
     }
