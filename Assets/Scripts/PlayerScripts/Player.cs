@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     
     [SerializeField] 
     AnimationType animationHelper;
-    private bool isPlayed;//flag for checking if the hit abhmation played
+    private bool isPlayed;//flag for checking if the hit animation played
 
     
     #endregion
@@ -121,8 +121,7 @@ public class Player : MonoBehaviour
         {
             Stats.PlayerSpeed = Stats.MaxSpeed;
         }
-        // Handle move direction image for player
-        // Assuming you don't want to flip along the Y-axis
+        
         transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
     }
     }
