@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     
     [SerializeField] 
     AnimationType animationHelper;
+    private bool isPlayed;
+    
     
     #endregion
     
@@ -128,6 +130,48 @@ public class Player : MonoBehaviour
     #endregion
 
 
+    // TODO: add to git
+    #region ANIMATION ------------------------------------
+    private bool animationHitPlayed = false;
+
+
+    private void PlayAnimaion(AnimationType newAnimation)
+    {
+        if(playerAnimator.AnimationState != newAnimation)
+        {
+        playerAnimator.AnimationState = newAnimation;
+        playerAnimator.TriggerAnimation(playerAnimator.AnimationState);
+        }   
+    }
+
+    // TODO: need to update the animator window to exit after playing the hit animation
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        // Check if the colliding GameObject has a specific tag.
+        if (other.gameObject.CompareTag("ball"))
+        {
+            Debug.Log("ENTER_COLLISION");
+            PlayAnimaion(AnimationType.Hit);
+        }
+        // PlayAnimaion(AnimationType.Idle);
+    }
+
+    private void returnToIdleAnimation()
+    {
+        PlayAnimaion(AnimationType.Idle);
+    }
+
+    private bool isAnimationPlayed()
+    {
+         Animator Panimator = playerAnimator.GetComponent<Animator>();
+         AnimatorStateInfo stateInfo = Panimator.GetCurrentAnimatorStateInfo(0);
+
+        // TODO: chnge to "hit"
+        return stateInfo.IsName("PBhit") && stateInfo.normalizedTime >= 1.0f;
+    }
+    #endregion
+
+
     #region START, UPDATE --------------------------------
     // Start is called before the first frame update
     void Start()
@@ -135,9 +179,9 @@ public class Player : MonoBehaviour
         Stats.PlayerSpeed = Stats.StartSpeed; 
         Stats.MoveY = 0; 
         twoKeysFlag = false;
-        
         playerAnimator.AnimationState = AnimationType.Idle;
     }
+
 
 
     // Update is called once per frame
@@ -145,13 +189,13 @@ public class Player : MonoBehaviour
     {
         HandleInput();//procesinput||parser
         Move(transform);  
-        
-
-        if(playerAnimator.AnimationState != animationHelper)
+        // TODO: check if can do this in animator window
+        if(playerAnimator.AnimationState == AnimationType.Hit)
         {
-        playerAnimator.AnimationState = animationHelper;
-        playerAnimator.TriggerAnimation(playerAnimator.AnimationState);
+            isPlayed = isAnimationPlayed();
+            if(isPlayed){returnToIdleAnimation();}
         }
+        
     }
     #endregion
 }
