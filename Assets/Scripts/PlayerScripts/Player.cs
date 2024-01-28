@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Player : MonoBehaviour
     #region PLAYER FIELDS ------------------------------
     [SerializeField] 
     PlayerComponents components;
+    [SerializeField]
+    InputAction moveAction;
     public PlayerComponents Components { get => components;}
 
 
@@ -20,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] 
     private PlayerAnimator playerAnimator; 
     public PlayerAnimator PlayerAnimator { get => this.playerAnimator; set => this.playerAnimator = value; }
+    private Vector2 _moveInput;
     #endregion
 
 
@@ -29,113 +34,16 @@ public class Player : MonoBehaviour
     
     [SerializeField] 
     AnimationType animationHelper;
-    private bool isPlayed;//flag for checking if the hit animation played
+    private bool isPlayed;//flag for checking if the hit abhmation played
 
     
     #endregion
     
-
-    #region STATS SETTERS ------------------------------
-    private void setDirection(int yDirection, LastDirection newDirection)
-    {
-        Stats.MoveY = yDirection;
-        Stats.LastDirection = newDirection;
-        Stats.PlayerSpeed = Stats.StartSpeed;
-    }
-
-    private void setMoveYandPlayerSpeed(int yDirection)
-    {
-        Stats.MoveY = yDirection;
-        Stats.PlayerSpeed = Stats.StartSpeed * Stats.DirctChangeSpeed;
-    }
-    #endregion
-
-    
-    #region INPUT HANDLE -------------------------------
-    public void HandleInput()
-    {
-        
-        if(Input.GetKey(Stats.KeyUp) && Input.GetKey(Stats.KeyDown))
-        {
-            twoKeysFlag = true;
-            if(Stats.LastDirection == LastDirection.up)
-            {
-                setMoveYandPlayerSpeed(-1);
-            }
-            if(Stats.LastDirection == LastDirection.down)
-            {
-                setMoveYandPlayerSpeed(1);
-            }
-        }
-
-        else if(Input.GetKey(Stats.KeyUp))
-        {
-            if(Stats.LastDirection != LastDirection.up || twoKeysFlag)
-            {
-                setDirection(1,  LastDirection.up);
-                twoKeysFlag = false;
-            }
-        }
-        else if(Input.GetKey(Stats.KeyDown))
-        {
-            if(Stats.LastDirection != LastDirection.down || twoKeysFlag)
-            {
-                setDirection(-1, LastDirection.down);
-                twoKeysFlag = false;
-            }
-        } 
-        
-        else
-        {
-            Stats.PlayerSpeed = Stats.StartSpeed;
-            Stats.MoveY = 0;
-            Stats.LastDirection = LastDirection.place;
-        } 
-
-        // only horizontal move -> Y cordinate only 
-        Stats.Direction = 
-            new Vector2(Components.RigidBody.velocity.x, Stats.MoveY);
-    }
-    #endregion
-
-    
-
-    #region MOVE ---------------------------------------
-    public void Move(Transform transform)
-    {
-
-    Components.RigidBody.velocity = 
-        new Vector2(Components.RigidBody.velocity.x, Stats.Direction.y * Stats.PlayerSpeed * Time.deltaTime);
-    
-
-    if (Stats.Direction.y != 0)
-    {
-        float speedFlag = (Stats.PlayerSpeed*Stats.PlayerAccelRate);
-
-        if(speedFlag <= Stats.MaxSpeed)
-        {
-            Stats.PlayerSpeed *= Stats.PlayerAccelRate;
-        }
-        // add the player speed the diff betwin maxSpeed and playerSpeed
-        else
-        {
-            Stats.PlayerSpeed = Stats.MaxSpeed;
-        }
-        
-        transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
-    }
-    }
-    #endregion
-
-
-    // TODO: add to git
     #region ANIMATION ------------------------------------
-
-
 
     private void PlayAnimaion(AnimationType newAnimation)
     {
-        if(playerAnimator.AnimationState != newAnimation)
+        if(playerAnimator && playerAnimator.AnimationState != newAnimation)
         {
         playerAnimator.AnimationState = newAnimation;
         playerAnimator.TriggerAnimation(playerAnimator.AnimationState);
@@ -156,14 +64,16 @@ public class Player : MonoBehaviour
     private void returnToIdleAnimation()
     {
         PlayAnimaion(AnimationType.Idle);
+
     }
 
     private bool isAnimationPlayed()
     {
-         Animator Panimator = playerAnimator.GetComponent<Animator>();
-         AnimatorStateInfo stateInfo = Panimator.GetCurrentAnimatorStateInfo(0);
-
-        return stateInfo.IsName("hit") && stateInfo.normalizedTime >= 1.0f;
+         // Animator Panimator = playerAnimator.GetComponent<Animator>();
+         // AnimatorStateInfo stateInfo = Panimator.GetCurrentAnimatorStateInfo(0);
+    
+        // return stateInfo.IsName("hit") && stateInfo.normalizedTime >= 1.0f;
+        return false;
     }
     #endregion
 
@@ -175,7 +85,20 @@ public class Player : MonoBehaviour
         Stats.PlayerSpeed = Stats.StartSpeed; 
         Stats.MoveY = 0; 
         twoKeysFlag = false;
-        playerAnimator.AnimationState = AnimationType.Idle;
+        moveAction.Enable();
+        // playerAnimator.AnimationState = AnimationType.Idle;
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
+    {
+        _moveInput = moveAction.ReadValue<Vector2>();
+        Vector2 force = new Vector2(_moveInput.x * Stats.StartSpeed, _moveInput.y * Stats.StartSpeed);
+        Components.RigidBody.AddForce(force);
     }
 
 
@@ -183,14 +106,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleInput();//procesinput||parser
-        Move(transform);  
         // TODO: check if can do this in animator window
-        if(playerAnimator.AnimationState == AnimationType.Hit)
+        if(playerAnimator && playerAnimator.AnimationState == AnimationType.Hit)
         {
             isPlayed = isAnimationPlayed();
             if(isPlayed){returnToIdleAnimation();}
-            isPlayed = false;
+            // isPlayed = false;
         }
         
     }
