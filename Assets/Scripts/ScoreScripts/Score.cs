@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ScoreScripts
 {
@@ -10,33 +12,37 @@ namespace ScoreScripts
         
         #region Score fields
         [SerializeField] 
-        ScoreComponents components;
-        public ScoreComponents Components => components;
-        
-        [SerializeField] 
-        ScoreStats stats;
-        public ScoreStats Stats => stats;
-
+        private Text peanutButterText;
+        [SerializeField]
+        private Text jamText;
+        private Dictionary<PlayerType, int> playerScores;
         #endregion
-
-        private int _score = 0;
         
         private void Start()
         {
-            UpdateScoreText();
+            // initialize the dictionary with the player types and 0 scores
+            playerScores = new Dictionary<PlayerType, int>
+            {
+                {PlayerType.Jelly, 0},
+                {PlayerType.PeanutButter, 0}
+            };
         }
 
         #region Points
 
-        public void AddPoints(int points, int playerIndex)
+        public void AddPoints(int points, PlayerType playerType)
         {
-            _score += points;
+            playerScores[playerType] += points;
             UpdateScoreText();
         }
 
         public void ResetPoints()
         {
-            _score = 0;
+            // reset the scores to 0
+            foreach (var playerType in playerScores.Keys)
+            {
+                playerScores[playerType] = 0;
+            }
             UpdateScoreText();
         }
 
@@ -44,7 +50,13 @@ namespace ScoreScripts
 
         private void UpdateScoreText()
         {
-            components.ScoreText.text = string.Format(c_scoreFormat, _score);
+            if (peanutButterText == null || jamText == null)
+            {
+                Debug.LogError("Score text is null");
+                return;
+            }
+            peanutButterText.text = string.Format(c_scoreFormat, playerScores[PlayerType.PeanutButter]);
+            jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly]);
         }
     }
 }

@@ -10,9 +10,12 @@ public class Ball : MonoBehaviour
     private PlayerType lastPlayerHit;
     
     private Rigidbody2D rb;
+    
+    private Vector2 ballPosition;
 
     void Start()
     {
+        ballPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
         LaunchBall();
     }
@@ -57,5 +60,19 @@ public class Ball : MonoBehaviour
     private void UpdateLayer(int newLayer)
     {
         gameObject.layer = newLayer;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("JamGoal"))
+        {
+           GameManager.Instance.IncrementScore(PlayerType.PeanutButter);
+        }
+        else if (other.gameObject.CompareTag("PeanutButterGoal"))
+        {
+            GameManager.Instance.IncrementScore(PlayerType.Jelly);
+        }
+        transform.position = ballPosition;
+        LaunchBall();
     }
 }

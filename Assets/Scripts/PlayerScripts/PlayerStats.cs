@@ -11,7 +11,7 @@ enum LastDirection
     place
 }
 
-enum PlayerType
+public enum PlayerType
 {
     PeanutButter,
     Jelly

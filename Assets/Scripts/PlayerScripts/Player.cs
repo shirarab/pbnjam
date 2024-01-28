@@ -100,12 +100,25 @@ public class Player : MonoBehaviour
         Vector2 force = new Vector2(_moveInput.x * Stats.StartSpeed, _moveInput.y * Stats.StartSpeed);
         Components.RigidBody.AddForce(force);
     }
+    
+    private void stopMotion()
+    {
+        if (Input.GetKeyUp(Stats.KeyUp))
+        {
+            Components.RigidBody.velocity = Vector2.zero;   
+        }
 
+        if (Input.GetKeyUp(Stats.KeyDown))
+        {
+            Components.RigidBody.velocity = Vector2.zero;   
+        }
+    }
 
 
     // Update is called once per frame
     void Update()
     {
+        stopMotion();
         // TODO: check if can do this in animator window
         if(playerAnimator && playerAnimator.AnimationState == AnimationType.Hit)
         {
@@ -113,7 +126,6 @@ public class Player : MonoBehaviour
             if(isPlayed){returnToIdleAnimation();}
             // isPlayed = false;
         }
-        
     }
     #endregion
 }
