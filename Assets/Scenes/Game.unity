@@ -568,6 +568,8 @@ MonoBehaviour:
     dirctChangeSpeed: 150
     keyUp: 273
     keyDown: 274
+  playerAnimator: {fileID: 0}
+  animationHelper: 0
 --- !u!212 &213900732
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -831,6 +833,8 @@ MonoBehaviour:
     dirctChangeSpeed: 150
     keyUp: 119
     keyDown: 115
+  playerAnimator: {fileID: 0}
+  animationHelper: 0
 --- !u!212 &609340451
 SpriteRenderer:
   m_ObjectHideFlags: 0
