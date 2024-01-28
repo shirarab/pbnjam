@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
     // TODO: add to git
     #region ANIMATION ------------------------------------
-    private bool animationHitPlayed = false;
+
 
 
     private void PlayAnimaion(AnimationType newAnimation)
