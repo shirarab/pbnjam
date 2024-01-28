@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     
     [SerializeField] 
     AnimationType animationHelper;
-    private bool isPlayed;//flag for checking if the hit animation played
+    private bool isPlayed;//flag for checking if the hit abhmation played
 
     
     #endregion
@@ -101,37 +101,54 @@ public class Player : MonoBehaviour
     
 
     #region MOVE ---------------------------------------
-    public void Move(Transform transform)
-    {
+    // public void Move(Transform transform)
+    // {
 
-    Components.RigidBody.velocity = 
-        new Vector2(Components.RigidBody.velocity.x, Stats.Direction.y * Stats.PlayerSpeed * Time.deltaTime);
+    // Components.RigidBody.velocity = 
+    //     new Vector2(Components.RigidBody.velocity.x, Stats.Direction.y * Stats.PlayerSpeed * Time.deltaTime);
     
 
-    if (Stats.Direction.y != 0)
-    {
-        float speedFlag = (Stats.PlayerSpeed*Stats.PlayerAccelRate);
+    // if (Stats.Direction.y != 0)
+    // {
+    //     float speedFlag = (Stats.PlayerSpeed*Stats.PlayerAccelRate);
 
-        if(speedFlag <= Stats.MaxSpeed)
-        {
-            Stats.PlayerSpeed *= Stats.PlayerAccelRate;
-        }
-        // add the player speed the diff betwin maxSpeed and playerSpeed
-        else
-        {
-            Stats.PlayerSpeed = Stats.MaxSpeed;
-        }
-        
-        transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
+    //     if(speedFlag <= Stats.MaxSpeed)
+    //     {
+    //         Stats.PlayerSpeed *= Stats.PlayerAccelRate;
+    //     }
+    //     // add the player speed the diff betwin maxSpeed and playerSpeed
+    //     else
+    //     {
+    //         Stats.PlayerSpeed = Stats.MaxSpeed;
+    //     }
+    //     // Handle move direction image for player
+    //     // Assuming you don't want to flip along the Y-axis
+    //     transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
+    // }
+    // }
+
+
+    public void Move(Transform transform)
+    {
+    float moveForce = Stats.Direction.y * Stats.PlayerSpeed;
+    Components.RigidBody.AddForce(new Vector2(0, moveForce));
+
+    float speedFlag = Stats.PlayerSpeed * Stats.PlayerAccelRate;
+
+    if (speedFlag > Stats.MaxSpeed)
+    {
+        Stats.PlayerSpeed = Stats.MaxSpeed;
     }
+
+    // Handle move direction image for player
+    // Assuming you don't want to flip along the Y-axis
+    transform.localScale = new Vector3(1, Stats.Direction.y < 0 ? -1 : 1, 1);
     }
+
     #endregion
 
 
-    // TODO: add to git
     #region ANIMATION ------------------------------------
-
-
 
     private void PlayAnimaion(AnimationType newAnimation)
     {
@@ -156,6 +173,7 @@ public class Player : MonoBehaviour
     private void returnToIdleAnimation()
     {
         PlayAnimaion(AnimationType.Idle);
+
     }
 
     private bool isAnimationPlayed()
@@ -190,7 +208,7 @@ public class Player : MonoBehaviour
         {
             isPlayed = isAnimationPlayed();
             if(isPlayed){returnToIdleAnimation();}
-            isPlayed = false;
+            // isPlayed = false;
         }
         
     }
