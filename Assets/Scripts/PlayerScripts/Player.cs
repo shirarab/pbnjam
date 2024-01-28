@@ -150,7 +150,6 @@ public class Player : MonoBehaviour
         // Check if the colliding GameObject has a specific tag.
         if (other.gameObject.CompareTag("ball"))
         {
-            Debug.Log("ENTER_COLLISION");
             PlayAnimaion(AnimationType.Hit);
         }
         // PlayAnimaion(AnimationType.Idle);
