@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace ScoreScripts
 {
@@ -15,6 +16,8 @@ namespace ScoreScripts
         private Text peanutButterText;
         [SerializeField]
         private Text jamText;
+        [SerializeField]
+        private int maxScore = 5;
         private Dictionary<PlayerType, int> playerScores;
         #endregion
         
@@ -34,6 +37,18 @@ namespace ScoreScripts
         {
             playerScores[playerType] += points;
             UpdateScoreText();
+            if (playerScores[playerType] >= maxScore)
+            {
+                if (playerType == PlayerType.Jelly)
+                {
+                    SceneManager.LoadScene("JamGameOver");
+                }
+                else
+                {
+                    SceneManager.LoadScene("PBGameOver");
+                }
+                
+            }
         }
 
         public void ResetPoints()

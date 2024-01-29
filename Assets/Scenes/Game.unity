@@ -430,6 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   peanutButterText: {fileID: 17061876}
   jamText: {fileID: 142211729}
+  maxScore: 5
 --- !u!4 &148444549
 Transform:
   m_ObjectHideFlags: 0
