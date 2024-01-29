@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21437325, g: 0.08583506, b: 0.8805031, a: 1}
+  m_Color: {r: 0.90196085, g: 0.49411768, b: 0.21568629, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -288,7 +288,8 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9031052755213246065, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -369,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9559748, g: 0.057117805, b: 0.8956988, a: 1}
+  m_Color: {r: 0.8431373, g: 0.227451, b: 0.5254902, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -575,8 +576,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 100
+  m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
@@ -685,14 +686,11 @@ MonoBehaviour:
     m_Flags: 0
   stats:
     playerType: 1
-    startSpeed: 10
-    Maxspeed: 1000
-    playerAccelRate: 2
-    dirctChangeSpeed: 150
+    startSpeed: 2000
     keyUp: 273
     keyDown: 274
   playerAnimator: {fileID: 1430223351}
-  animationHelper: 0
+  durationOfHitAnimation: 0
 --- !u!4 &213900733
 Transform:
   m_ObjectHideFlags: 0
@@ -935,14 +933,11 @@ MonoBehaviour:
     m_Flags: 0
   stats:
     playerType: 0
-    startSpeed: 10
-    Maxspeed: 1000
-    playerAccelRate: 2
-    dirctChangeSpeed: 150
+    startSpeed: 2000
     keyUp: 119
     keyDown: 115
   playerAnimator: {fileID: 1278973684}
-  animationHelper: 0
+  durationOfHitAnimation: 0
 --- !u!4 &609340452
 Transform:
   m_ObjectHideFlags: 0
@@ -971,8 +966,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 100
+  m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
@@ -1461,7 +1456,8 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9031052755213246065, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

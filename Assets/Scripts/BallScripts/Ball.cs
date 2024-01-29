@@ -21,11 +21,13 @@ public class Ball : MonoBehaviour
     private Rigidbody2D rb;
     
     private Vector2 ballPosition;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         ballPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         LaunchBall();
     }
 
@@ -37,25 +39,20 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Reflect the ball's velocity upon collision.
-        Vector2 reflection = Vector2.Reflect(rb.velocity, collision.contacts[0].normal);
-        rb.velocity = reflection;
-        
         if (collision.gameObject.CompareTag("Player"))
         {
             lastPlayerHit = collision.gameObject.GetComponent<Player>().Stats.PlayerType;
-            var ball = GetComponent<SpriteRenderer>();
             if (lastPlayerHit == PlayerType.Jelly)
             {
-                ball.color = Color.red;
-                // ball.sprite = jamBallSprite;
                 UpdateLayer(LayerMask.NameToLayer(BreadType.JellyBread.ToString()));
+                // untested yet
+                spriteRenderer.sprite = jamBallSprite;
             }
             else if (lastPlayerHit == PlayerType.PeanutButter)
             {
-                ball.color = Color.yellow;
-                // ball.sprite = peanutButterBallSprite;
                 UpdateLayer(LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString()));
+                // untested yet
+                spriteRenderer.sprite = peanutButterBallSprite;
             }
         }
     }

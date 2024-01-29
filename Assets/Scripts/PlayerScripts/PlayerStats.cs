@@ -23,57 +23,17 @@ public enum PlayerType
 public class PlayerStats 
 {
 
-    
+    #region Player Type
     [SerializeField]
     private PlayerType playerType;
     internal PlayerType PlayerType { get => playerType;}
-
+    # endregion
     
     #region Player Speed
-
     [SerializeField] //TODO: delete line after setting the idle start speed
     private float startSpeed = 5;
     public float StartSpeed { get => startSpeed; set => startSpeed = value; }
-
-
-
-    [SerializeField]
-    private float Maxspeed = 1000;
-    public float MaxSpeed { get => Maxspeed;}
-
-
-    // [SerializeField]
-    private float playerSpeed = 0;
-    public float PlayerSpeed{get; set;}
-
-
-    
-
-    [SerializeField]
-    private float playerAccelRate = 2;
-    public float PlayerAccelRate { get => playerAccelRate; set => playerAccelRate = value; }
-
-
-    [SerializeField]
-    private float dirctChangeSpeed = 150;
-    public float DirctChangeSpeed { get => dirctChangeSpeed; set => dirctChangeSpeed = value; }
-
-
     #endregion
-
-
-    #region Direction
-    private float moveY;
-    public float MoveY { get => moveY; set => moveY = value; }
-
-    
-    private LastDirection lastDirection;
-    internal LastDirection LastDirection { get => lastDirection; set => lastDirection = value; }
-
-    private Vector2 direction;
-    public Vector2 Direction { get => direction; set => direction = value; }
-    #endregion
-
 
     #region KeyControl
     [SerializeField] private KeyCode keyUp;

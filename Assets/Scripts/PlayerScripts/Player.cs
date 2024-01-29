@@ -81,8 +81,6 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        Stats.PlayerSpeed = Stats.StartSpeed; 
-        Stats.MoveY = 0; 
         moveAction.Enable();
     }
 
