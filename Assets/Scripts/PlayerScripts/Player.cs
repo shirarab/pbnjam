@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     #region PLAYER FIELDS ------------------------------
     [SerializeField] 
     PlayerComponents components;
+
+
     [SerializeField]
     InputAction moveAction;
     public PlayerComponents Components { get => components;}
@@ -24,76 +26,35 @@ public class Player : MonoBehaviour
     [SerializeField] 
     private PlayerAnimator playerAnimator; 
     public PlayerAnimator PlayerAnimator { get => this.playerAnimator; set => this.playerAnimator = value; }
-    private Vector2 _moveInput;
     #endregion
 
 
 
     #region METHOD FLAGS AND HELPERS ------------------
-    private bool twoKeysFlag;
-    
     [SerializeField] 
-    AnimationType animationHelper;
-    private bool isPlayed;//flag for checking if the hit abhmation played
+    float durationOfHitAnimation; //duration of the hit animation
 
-    
+    private Vector2 _moveInput;
     #endregion
+
+
     
     #region ANIMATION ------------------------------------
-
-    private void PlayAnimaion(AnimationType newAnimation)
-    {
-        if(playerAnimator && playerAnimator.AnimationState != newAnimation)
-        {
-        playerAnimator.AnimationState = newAnimation;
-        playerAnimator.TriggerAnimation(playerAnimator.AnimationState);
-        }   
-    }
-
-    // TODO: need to update the animator window to exit after playing the hit animation
     private void OnCollisionEnter2D(Collision2D other) 
     {
         // Check if the colliding GameObject has a specific tag.
         if (other.gameObject.CompareTag("ball"))
         {
-            PlayAnimaion(AnimationType.Hit);
+            PlayerAnimator.PlayAnimaion(AnimationType.Hit);
+            StartCoroutine(playerAnimator.BackToIdle(durationOfHitAnimation));
         }
-        
-    }
-
-    private void returnToIdleAnimation()
-    {
-        PlayAnimaion(AnimationType.Idle);
-
-    }
-
-    private bool isAnimationPlayed()
-    {
-         // Animator Panimator = playerAnimator.GetComponent<Animator>();
-         // AnimatorStateInfo stateInfo = Panimator.GetCurrentAnimatorStateInfo(0);
-    
-        // return stateInfo.IsName("hit") && stateInfo.normalizedTime >= 1.0f;
-        return false;
     }
     #endregion
 
 
-    #region START, UPDATE --------------------------------
-    // Start is called before the first frame update
-    void Start()
-    {
-        Stats.PlayerSpeed = Stats.StartSpeed; 
-        Stats.MoveY = 0; 
-        twoKeysFlag = false;
-        moveAction.Enable();
-        // playerAnimator.AnimationState = AnimationType.Idle;
-    }
 
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
 
+    #region MOVEMENT--------------------------------
     private void MovePlayer()
     {
         _moveInput = moveAction.ReadValue<Vector2>();
@@ -113,19 +74,27 @@ public class Player : MonoBehaviour
             Components.RigidBody.velocity = Vector2.zero;   
         }
     }
+    #endregion
 
 
-    // Update is called once per frame
+    #region START, UPDATE --------------------------------
+    
+    void Start()
+    {
+        Stats.PlayerSpeed = Stats.StartSpeed; 
+        Stats.MoveY = 0; 
+        moveAction.Enable();
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+
     void Update()
     {
         stopMotion();
-        // TODO: check if can do this in animator window
-        if(playerAnimator && playerAnimator.AnimationState == AnimationType.Hit)
-        {
-            isPlayed = isAnimationPlayed();
-            if(isPlayed){returnToIdleAnimation();}
-            // isPlayed = false;
-        }
     }
     #endregion
 }
