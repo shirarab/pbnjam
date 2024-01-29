@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,25 +13,25 @@ public class Ball : MonoBehaviour
     private Sprite jamBallSprite;
     
     
-    private PlayerType lastPlayerHit;
-    
     private Rigidbody2D rb;
-    
-    private Vector2 ballPosition;
     private SpriteRenderer spriteRenderer;
+    private PlayerType lastPlayerHit;
+    private Vector2 startBallPosition;
+    private Sprite startBallSprite;
 
     void Start()
     {
-        ballPosition = GetComponent<Transform>().position;
+        startBallPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        startBallSprite = spriteRenderer.sprite;
         LaunchBall();
     }
 
     void FixedUpdate()
     {
         // Ensure the ball maintains a constant speed.
-        rb.velocity = rb.velocity.normalized * speed * Time.deltaTime;
+        rb.velocity = rb.velocity.normalized * (speed * Time.deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -80,7 +77,14 @@ public class Ball : MonoBehaviour
         {
             GameManager.Instance.IncrementScore(PlayerType.Jelly);
         }
-        transform.position = ballPosition;
+
+        ResetBall();
+    }
+
+    private void ResetBall()
+    {
+        transform.position = startBallPosition;
+        spriteRenderer.sprite = startBallSprite;
         LaunchBall();
     }
 }
