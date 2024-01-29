@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,6 +8,13 @@ public class Ball : MonoBehaviour
 {
     [SerializeField]
     private float speed = 10f;
+
+    [SerializeField]
+    private Sprite peanutButterBallSprite;
+    
+    [SerializeField]
+    private Sprite jamBallSprite;
+    
     
     private PlayerType lastPlayerHit;
     
@@ -39,11 +48,13 @@ public class Ball : MonoBehaviour
             if (lastPlayerHit == PlayerType.Jelly)
             {
                 ball.color = Color.red;
+                // ball.sprite = jamBallSprite;
                 UpdateLayer(LayerMask.NameToLayer(BreadType.JellyBread.ToString()));
             }
             else if (lastPlayerHit == PlayerType.PeanutButter)
             {
                 ball.color = Color.yellow;
+                // ball.sprite = peanutButterBallSprite;
                 UpdateLayer(LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString()));
             }
         }
