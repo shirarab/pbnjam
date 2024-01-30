@@ -47,11 +47,10 @@ namespace ScoreScripts
                 {
                     SceneManager.LoadScene("PBGameOver");
                 }
-                
             }
         }
 
-        public void ResetPoints()
+        public void ResetScore()
         {
             // reset the scores to 0
             foreach (var playerType in playerScores.Keys)

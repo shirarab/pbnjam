@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BreadScripts
 { 
@@ -9,7 +8,7 @@ namespace BreadScripts
         [SerializeField] private int numberOfColumns = 5;
         [SerializeField] private float margin = 0.2f;
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
-        [SerializeField] private Vector3 breadScale = new(1.5f, 1.5f);
+        [SerializeField] private Vector3 breadScale = new(1.7f, 1.7f);
         [SerializeField] private RectTransform scoreBar;
 
         private const int SCREEN_HEIGHT = 10;
