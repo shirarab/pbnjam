@@ -8,7 +8,7 @@ public class ResetScript : MonoBehaviour
     public void ResetGame()
     {
         // Reload the scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Game");
     }
 
 }
