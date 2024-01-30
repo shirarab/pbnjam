@@ -7,7 +7,7 @@ namespace BreadScripts
     {
         [SerializeField] private Bread breadPrefab;
         [SerializeField] private int numberOfColumns = 5;
-        [SerializeField] private float margin = 0.15f;
+        [SerializeField] private float margin = 0.2f;
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
         [SerializeField] private Vector3 breadScale = new(1.5f, 1.5f);
         [SerializeField] private RectTransform scoreBar;
@@ -21,7 +21,7 @@ namespace BreadScripts
             float scoreBarHeight = (scoreBar != null) ? scoreBar.rect.height / Screen.height * Camera.main.orthographicSize * 2f : 0f;
             
             float startX = -(numberOfColumns - 1) * (breadSize.x + margin) / 2f; // same as: -(columns * (breadSize.x + margin)) / 2f + (breadSize.x + margin) / 2f;
-            float startY = CalculateStartingYPosition(scoreBarHeight);
+            float startY = CalculateStartingYPosition(scoreBarHeight) + margin;
             
             int numberOfRows = CalculateNumberOfRows(scoreBarHeight);
 
