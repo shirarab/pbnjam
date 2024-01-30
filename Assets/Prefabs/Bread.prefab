@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4628231518433833112}
   - component: {fileID: 2288875260262978396}
   - component: {fileID: 93303609495211170}
+  - component: {fileID: 1816379844219636336}
   m_Layer: 7
   m_Name: Bread
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aa6a812beb5e4e3439d6161b720e73f4, type: 3}
+  m_Sprite: {fileID: -287288212, guid: bf3ce8e694107354cacedcca71ebaf48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,9 +105,9 @@ MonoBehaviour:
   currentBreadType: 0
   breadSprites:
   - {fileID: 21300000, guid: aa6a812beb5e4e3439d6161b720e73f4, type: 3}
-  - {fileID: 21300000, guid: f05fc0e55d7f700458c8642f06c58d58, type: 3}
-  - {fileID: 21300000, guid: 4d9ea1ff322e6274d81f994bd821a5e7, type: 3}
-  currentSprite: {fileID: 0}
+  - {fileID: 21300000, guid: dd5a8f9a97899564993fbaf0c4401c08, type: 3}
+  - {fileID: 21300000, guid: 12051270bd7858e4eb125ff5c7068975, type: 3}
+  currentSprite: {fileID: -939242875, guid: bf3ce8e694107354cacedcca71ebaf48, type: 3}
 --- !u!61 &2288875260262978396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,3 +180,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!95 &1816379844219636336
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068106997835965525}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3401d797d7dfced489b0e547dab34ca9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
