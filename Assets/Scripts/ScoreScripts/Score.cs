@@ -8,7 +8,7 @@ namespace ScoreScripts
     public class Score : MonoBehaviour
     {
         #region Constants
-        private const string c_scoreFormat = "Score: {0}";
+        private const string c_scoreFormat = "0{0}";
         #endregion
         
         #region Score fields
