@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace BreadScripts
 { 
@@ -10,11 +11,13 @@ namespace BreadScripts
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
         [SerializeField] private Vector3 breadScale = new(1.7f, 1.7f);
         [SerializeField] private RectTransform scoreBar;
+        private new List<Bread> breadsList;
 
         private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()
         {
+            breadsList = new List<Bread>();
             breadPrefab.transform.localScale = breadScale;
             
             float scoreBarHeight = (scoreBar != null) ? scoreBar.rect.height / Screen.height * Camera.main.orthographicSize * 2f : 0f;
@@ -31,7 +34,8 @@ namespace BreadScripts
                 for (int row = 0; row < numberOfRows; row++)
                 {
                     float y = startY + row * (breadSize.y + margin);
-                    Instantiate(breadPrefab, new Vector3(x, y, 0f), Quaternion.identity);
+                    Bread currBread = Instantiate(breadPrefab, new Vector3(x, y, 0f), Quaternion.identity);
+                    breadsList.Add(currBread);
                 }
             }
         }
@@ -52,6 +56,14 @@ namespace BreadScripts
             halfHeight -= (scoreBarHeight / 2f);
 
             return centerY - halfHeight + (breadSize.y + margin) / 2f;
+        }
+        
+        public void ResetGrid()
+        {
+            foreach (Bread bread in breadsList)
+            {
+                bread.ResetBread();
+            }
         }
     }
 }
