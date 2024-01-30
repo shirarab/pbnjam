@@ -71,11 +71,11 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("JamGoal"))
         {
-           GameManager.Instance.IncrementScore(PlayerType.PeanutButter);
+           GameManager.Instance.DecrementScore(PlayerType.Jelly);
         }
         else if (other.gameObject.CompareTag("PeanutButterGoal"))
         {
-            GameManager.Instance.IncrementScore(PlayerType.Jelly);
+            GameManager.Instance.DecrementScore(PlayerType.PeanutButter);
         }
 
         ResetBall();

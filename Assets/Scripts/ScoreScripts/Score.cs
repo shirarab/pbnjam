@@ -8,7 +8,7 @@ namespace ScoreScripts
     public class Score : MonoBehaviour
     {
         #region Constants
-        private const string c_scoreFormat = "0{0}";
+        private const string c_scoreFormat = "{0}";
         #endregion
         
         #region Score fields
@@ -37,21 +37,17 @@ namespace ScoreScripts
         {
             playerScores[playerType] += points;
             UpdateScoreText();
-            if (playerScores[playerType] >= maxScore)
-            {
-                if (playerType == PlayerType.Jelly)
-                {
-                    SceneManager.LoadScene("JamGameOver");
-                }
-                else
-                {
-                    SceneManager.LoadScene("PBGameOver");
-                }
-                
-            }
+
+            IsGameOver(playerType);
         }
 
-        public void ResetPoints()
+        public void RemovePoints(int points, PlayerType playerType)
+        {
+            playerScores[playerType] -= points;
+            UpdateScoreText();
+        }
+
+        public void ResetScore()
         {
             // reset the scores to 0
             foreach (var playerType in playerScores.Keys)
@@ -70,8 +66,23 @@ namespace ScoreScripts
                 Debug.LogError("Score text is null");
                 return;
             }
-            peanutButterText.text = string.Format(c_scoreFormat, playerScores[PlayerType.PeanutButter]);
-            jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly]);
+            peanutButterText.text = string.Format(c_scoreFormat, playerScores[PlayerType.PeanutButter].ToString().PadLeft(2, '0'));
+            jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly].ToString().PadLeft(2, '0'));
+        }
+        
+        private void IsGameOver(PlayerType playerType)
+        {
+            if (playerScores[playerType] >= maxScore)
+            {
+                if (playerType == PlayerType.Jelly)
+                {
+                    SceneManager.LoadScene("JamGameOver");
+                }
+                else
+                {
+                    SceneManager.LoadScene("PBGameOver");
+                }
+            }
         }
     }
 }

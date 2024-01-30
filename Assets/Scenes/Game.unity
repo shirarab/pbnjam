@@ -246,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.012
+      value: -3.37
       objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1634,7 +1634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.746406
+      value: 15.07
       objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1713,9 +1713,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breadPrefab: {fileID: 4628231518433833112, guid: 5e6a2361b015987498a9fa5bb118797a, type: 3}
   numberOfColumns: 5
-  margin: 0.1
+  margin: 0.2
   breadSize: {x: 1, y: 1}
   breadScale: {x: 1.5, y: 1.5, z: 0}
+  scoreBar: {fileID: 730230021}
 --- !u!4 &1200356967
 Transform:
   m_ObjectHideFlags: 0
