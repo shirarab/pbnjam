@@ -91,6 +91,7 @@ public class Bread : MonoBehaviour
     {
         if (layersToBreadTypeDict.ContainsKey(other.gameObject.layer) && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
+            GameManager.Instance.IncrementScoreByBread(layersToBreadTypeDict[other.gameObject.layer], currentBreadType);
             UpdateBreadTypeAndSprite(other);
         }
     }
