@@ -37,23 +37,20 @@ namespace ScoreScripts
         {
             playerScores[playerType] += points;
             UpdateScoreText();
-
-            IsGameOver(playerType);
+            GameManager.Instance.IsGameOver(playerType, playerScores[playerType], maxScore);
         }
 
         public void RemovePoints(int points, PlayerType playerType)
         {
-            playerScores[playerType] -= points;
+            playerScores[playerType] = Mathf.Max(playerScores[playerType]-points, 0) ;
             UpdateScoreText();
         }
 
         public void ResetScore()
         {
             // reset the scores to 0
-            foreach (var playerType in playerScores.Keys)
-            {
-                playerScores[playerType] = 0;
-            }
+            playerScores[PlayerType.Jelly] = 0;
+            playerScores[PlayerType.PeanutButter] = 0;
             UpdateScoreText();
         }
 
@@ -70,19 +67,5 @@ namespace ScoreScripts
             jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly].ToString().PadLeft(2, '0'));
         }
         
-        private void IsGameOver(PlayerType playerType)
-        {
-            if (playerScores[playerType] >= maxScore)
-            {
-                if (playerType == PlayerType.Jelly)
-                {
-                    SceneManager.LoadScene("JamGameOver");
-                }
-                else
-                {
-                    SceneManager.LoadScene("PBGameOver");
-                }
-            }
-        }
     }
 }

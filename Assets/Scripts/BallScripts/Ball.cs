@@ -81,7 +81,7 @@ public class Ball : MonoBehaviour
         ResetBall();
     }
 
-    private void ResetBall()
+    public void ResetBall()
     {
         transform.position = startBallPosition;
         spriteRenderer.sprite = startBallSprite;

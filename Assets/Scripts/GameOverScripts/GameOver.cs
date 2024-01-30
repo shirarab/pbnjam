@@ -4,7 +4,10 @@ public class GameOver : MonoBehaviour
 {
     public void PlayAgain()
     {
-        SceneManager.LoadScene("Game");
+        // disable the game over canvas
+        gameObject.SetActive(false);
+        // reset the game
+        GameManager.Instance.ResetGame();
     }
     
     public void MainMenu()

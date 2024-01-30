@@ -7,6 +7,14 @@ public class GameManager : Singleton<GameManager>
     public BreadGrid breadGrid;
     [SerializeField]
     private Score scoreManager;
+    [SerializeField]
+    private Ball pbBall;
+    [SerializeField]
+    private Ball jamBall;
+    [SerializeField]
+    private Canvas PbGameOverCanvas;
+    [SerializeField]
+    private Canvas JamGameOverCanvas;
     
     void Start()
     {
@@ -50,5 +58,32 @@ public class GameManager : Singleton<GameManager>
 
         var playerType = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
         scoreManager.AddPoints(pointToAdd, playerType);
+    }
+    
+    public void IsGameOver(PlayerType playerType, int currentScore, int maxScore)
+    {
+        if (currentScore >= maxScore)
+        {
+            if (playerType == PlayerType.Jelly)
+            {
+                JamGameOverCanvas.gameObject.SetActive(true);
+            }
+            else
+            {
+                PbGameOverCanvas.gameObject.SetActive(true);
+            }
+            pbBall.gameObject.SetActive(false);
+            jamBall.gameObject.SetActive(false);
+        }
+    }
+
+    public void ResetGame()
+    {
+        scoreManager.ResetScore();
+        breadGrid.ResetGrid();
+        pbBall.gameObject.SetActive(true);
+        jamBall.gameObject.SetActive(true);
+        pbBall.ResetBall();
+        jamBall.ResetBall();
     }
 }
