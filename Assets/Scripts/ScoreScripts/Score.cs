@@ -33,12 +33,12 @@ namespace ScoreScripts
 
         #region Points
 
-        public void AddPoints(int points, PlayerType playerType)
-        {
-            playerScores[playerType] += points;
-            UpdateScoreText();
-            GameManager.Instance.IsGameOver(playerType, playerScores[playerType], maxScore);
-        }
+        // public void AddPoints(int points, PlayerType playerType)
+        // {
+        //     playerScores[playerType] += points;
+        //     UpdateScoreText();
+        //     GameManager.Instance.IsGameOver(playerType, playerScores[playerType], maxScore);
+        // }
 
         public void RemovePoints(int points, PlayerType playerType)
         {

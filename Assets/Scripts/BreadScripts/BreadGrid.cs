@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Utils;
 
 namespace BreadScripts
 { 
@@ -74,6 +75,23 @@ namespace BreadScripts
                     bread.ResetBread();
                 }
             }
+        }
+
+        public Dictionary<BreadType, int> GetBreadCounts()
+        {
+            var breadCounts = new Dictionary<BreadType, int>();
+
+            foreach (var breadType in EnumUtils.GetValues<BreadType>())
+            {
+                breadCounts.Add(breadType, 0);
+            }
+
+            foreach (var bread in allBreads)
+            {
+                breadCounts[bread.CurrentBreadType] += 1;
+            }
+
+            return breadCounts;
         }
     }
 }
