@@ -773,7 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instructionsCanvas: {fileID: 304956286}
-  instructionsWaitTime: 4
+  instructionsWaitTime: 10
 --- !u!1 &691336144
 GameObject:
   m_ObjectHideFlags: 0

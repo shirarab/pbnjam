@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
         }
         else if (breadType != ballType)
         {
-            pointToAdd = 2;
+            pointToAdd = 1;
         }
 
         var playerType = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;

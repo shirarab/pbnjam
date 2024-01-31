@@ -462,7 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   peanutButterText: {fileID: 17061876}
   jamText: {fileID: 142211729}
-  maxScore: 10
+  maxScore: 30
 --- !u!4 &148444549
 Transform:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.0779
+      value: 3.97
       objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.y
@@ -573,6 +573,10 @@ PrefabInstance:
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: speed
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: spriteRenderer
@@ -865,7 +869,7 @@ MonoBehaviour:
     m_Flags: 0
   stats:
     playerType: 1
-    startSpeed: 2000
+    startSpeed: 2500
     keyUp: 273
     keyDown: 274
   playerAnimator: {fileID: 1430223351}
@@ -1195,7 +1199,7 @@ MonoBehaviour:
     m_Flags: 0
   stats:
     playerType: 0
-    startSpeed: 2000
+    startSpeed: 2500
     keyUp: 119
     keyDown: 115
   playerAnimator: {fileID: 1278973684}
@@ -1232,7 +1236,7 @@ Rigidbody2D:
   m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2153,7 +2157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.81
+      value: -4.06
       objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2190,6 +2194,10 @@ PrefabInstance:
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: speed
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: spriteRenderer
@@ -2541,7 +2549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breadPrefab: {fileID: 4628231518433833112, guid: 5e6a2361b015987498a9fa5bb118797a, type: 3}
-  numberOfColumns: 5
+  numberOfColumns: 4
   margin: 0.2
   breadSize: {x: 1, y: 1}
   breadScale: {x: 1.5, y: 1.5, z: 0}
