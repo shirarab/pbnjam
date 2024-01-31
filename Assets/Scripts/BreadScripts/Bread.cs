@@ -114,4 +114,12 @@ public class Bread : MonoBehaviour
         gameObject.layer = newLayer;
     }
     // TRIGER LOGIC------------------------
+    
+    public void ResetBread()
+    {
+        currentBreadType = BreadType.Bread;
+        currentSprite = breadSprites[(int)currentBreadType];
+        spriteRenderer.sprite = currentSprite;
+        UpdateBreadLayer(LayerMask.NameToLayer(BreadType.Bread.ToString()));
+    }
 }
