@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,14 +14,16 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private Sprite jamBallSprite;
     
+    [SerializeField]
+    private float ballOffScreenWaitTime = 1f;
     
-    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb;
     private PlayerType lastPlayerHit;
     private Vector2 startBallPosition;
     private Sprite startBallSprite;
 
-    void Start()
+    private void Awake()
     {
         startBallPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
@@ -27,7 +31,7 @@ public class Ball : MonoBehaviour
         startBallSprite = spriteRenderer.sprite;
         LaunchBall();
     }
-
+    
     void FixedUpdate()
     {
         // Ensure the ball maintains a constant speed.
@@ -69,16 +73,7 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("JamGoal"))
-        {
-           GameManager.Instance.DecrementScore(PlayerType.Jelly);
-        }
-        else if (other.gameObject.CompareTag("PeanutButterGoal"))
-        {
-            GameManager.Instance.DecrementScore(PlayerType.PeanutButter);
-        }
-
-        ResetBall();
+        StartCoroutine(ScoredGoal(other.gameObject.tag));
     }
 
     public void ResetBall()
@@ -86,5 +81,21 @@ public class Ball : MonoBehaviour
         transform.position = startBallPosition;
         spriteRenderer.sprite = startBallSprite;
         LaunchBall();
+    }
+    
+    private IEnumerator ScoredGoal(string tag)
+    {
+        Debug.Log("before wait");
+        yield return new WaitForSeconds(ballOffScreenWaitTime);
+        Debug.Log(tag + " scored a goal!");
+        if (tag.Equals("JamGoal"))
+        {
+            GameManager.Instance.DecrementScore(PlayerType.Jelly);
+        }
+        else if (tag.Equals("PeanutButterGoal"))
+        {
+            GameManager.Instance.DecrementScore(PlayerType.PeanutButter);
+        }
+        ResetBall();
     }
 }

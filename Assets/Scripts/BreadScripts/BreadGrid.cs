@@ -11,7 +11,7 @@ namespace BreadScripts
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
         [SerializeField] private Vector3 breadScale = new(1.7f, 1.7f);
         [SerializeField] private RectTransform scoreBar;
-        private new List<Bread> breadsList;
+        private List<Bread> breadsList;
 
         private const int SCREEN_HEIGHT = 10;
         

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using BreadScripts;
 using ScoreScripts;
 using UnityEngine;
@@ -15,6 +17,12 @@ public class GameManager : Singleton<GameManager>
     private Canvas PbGameOverCanvas;
     [SerializeField]
     private Canvas JamGameOverCanvas;
+    [SerializeField] 
+    private float gameEndWaitTime = 1f;
+    [SerializeField]
+    private float ballsActivationWaitTime = 0.5f;
+    
+    private bool isGameOver = false;
     
     void Start()
     {
@@ -24,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     void InitializeGame()
     {
         breadGrid.GenerateGrid();
+        StartCoroutine(DelayBallsActivation());
     }
     
     public void IncrementScore(PlayerType playerType)
@@ -33,11 +42,13 @@ public class GameManager : Singleton<GameManager>
     
     public void DecrementScore(PlayerType playerType)
     {
+        if (isGameOver) return;   
         scoreManager.RemovePoints(1, playerType);
     }
 
     public void IncrementScoreByBread(BreadType ballType, BreadType breadType)
     {
+        if (isGameOver) return;
         var pointToAdd = 0;
         if (breadType == ballType)
         {
@@ -64,26 +75,40 @@ public class GameManager : Singleton<GameManager>
     {
         if (currentScore >= maxScore)
         {
-            if (playerType == PlayerType.Jelly)
-            {
-                JamGameOverCanvas.gameObject.SetActive(true);
-            }
-            else
-            {
-                PbGameOverCanvas.gameObject.SetActive(true);
-            }
-            pbBall.gameObject.SetActive(false);
-            jamBall.gameObject.SetActive(false);
+            isGameOver = true;
+            StartCoroutine(EndGame(playerType));
         }
     }
 
-    public void ResetGame()
+    private IEnumerator EndGame(PlayerType playerType)
     {
-        scoreManager.ResetScore();
-        breadGrid.ResetGrid();
+        yield return new WaitForSeconds(gameEndWaitTime);
+        if (playerType == PlayerType.Jelly)
+        {
+            JamGameOverCanvas.gameObject.SetActive(true);
+        }
+        else
+        {
+            PbGameOverCanvas.gameObject.SetActive(true);
+        }
+        pbBall.gameObject.SetActive(false);
+        jamBall.gameObject.SetActive(false);
+    }
+    
+    private IEnumerator DelayBallsActivation()
+    {
+        yield return new WaitForSeconds(ballsActivationWaitTime);
         pbBall.gameObject.SetActive(true);
         jamBall.gameObject.SetActive(true);
         pbBall.ResetBall();
         jamBall.ResetBall();
+    }
+
+    public void ResetGame()
+    {
+        isGameOver = false;
+        scoreManager.ResetScore();
+        breadGrid.ResetGrid();
+        StartCoroutine(DelayBallsActivation());
     }
 }
