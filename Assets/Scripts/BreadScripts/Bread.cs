@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public enum BreadType
 {
@@ -49,13 +50,6 @@ public class Bread : MonoBehaviour
     // NOTE: the order of the list is important
     private Sprite[] breadSprites;
 
-
-
-    [SerializeField]
-    private Sprite currentSprite;
-    public Sprite CurrentSprite { get => currentSprite; set => currentSprite = value; }
-
-
     // STATS-----------------------------------------------
 
     private void Start()
@@ -69,7 +63,7 @@ public class Bread : MonoBehaviour
 
         // Check if there is a SpriteRenderer component
         spriteRenderer = GetComponent<SpriteRenderer>();
-        gameObject.layer = LayerMask.NameToLayer("Bread");
+        gameObject.layer = LayerMask.NameToLayer(Constants.BREAD);
 
 
         // If not, add a SpriteRenderer component dynamically
@@ -77,11 +71,9 @@ public class Bread : MonoBehaviour
         {
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         }
-
-        // NOTE: defined in unity
-        currentSprite = breadSprites[(int)currentBreadType];
+        
         // Set the sprite on the SpriteRenderer
-        spriteRenderer.sprite = currentSprite;
+        spriteRenderer.sprite = breadSprites[(int)currentBreadType];;
     }
 
 
@@ -91,7 +83,7 @@ public class Bread : MonoBehaviour
     {
         if (layersToBreadTypeDict.ContainsKey(other.gameObject.layer) && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
-            GameManager.Instance.IncrementScoreByBread(layersToBreadTypeDict[other.gameObject.layer], currentBreadType);
+            // GameManager.Instance.IncrementScoreByBread(layersToBreadTypeDict[other.gameObject.layer], currentBreadType);
             UpdateBreadTypeAndSprite(other);
         }
     }
@@ -102,8 +94,7 @@ public class Bread : MonoBehaviour
     {
         currentBreadType = layersToBreadTypeDict[other.gameObject.layer];
         
-        currentSprite = breadSprites[(int)currentBreadType];
-        spriteRenderer.sprite = currentSprite;
+        spriteRenderer.sprite = breadSprites[(int)currentBreadType];
         UpdateBreadLayer(other.gameObject.layer);
 
     }
@@ -118,8 +109,7 @@ public class Bread : MonoBehaviour
     public void ResetBread()
     {
         currentBreadType = BreadType.Bread;
-        currentSprite = breadSprites[(int)currentBreadType];
-        spriteRenderer.sprite = currentSprite;
+        spriteRenderer.sprite = breadSprites[(int)currentBreadType];
         UpdateBreadLayer(LayerMask.NameToLayer(BreadType.Bread.ToString()));
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using BreadScripts;
 using ScoreScripts;
@@ -35,6 +34,12 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(DelayBallsActivation());
     }
     
+    public void HandleGoalToPlayer(PlayerType player)
+    {
+        var breadToReset = player == PlayerType.Jelly ? BreadType.JellyBread : BreadType.PeanutButterBread;
+        breadGrid.ResetBreadType(breadToReset);
+    }
+    
     public void IncrementScore(PlayerType playerType)
     {
         scoreManager.AddPoints(1, playerType);
@@ -45,7 +50,7 @@ public class GameManager : Singleton<GameManager>
         if (isGameOver) return;   
         scoreManager.RemovePoints(1, playerType);
     }
-
+    
     public void IncrementScoreByBread(BreadType ballType, BreadType breadType)
     {
         if (isGameOver) return;
@@ -66,7 +71,7 @@ public class GameManager : Singleton<GameManager>
         {
             pointToAdd = 1;
         }
-
+    
         var playerType = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
         scoreManager.AddPoints(pointToAdd, playerType);
     }
@@ -78,6 +83,14 @@ public class GameManager : Singleton<GameManager>
             isGameOver = true;
             StartCoroutine(EndGame(playerType));
         }
+    }
+    
+    public void ResetGame()
+    {
+        isGameOver = false;
+        scoreManager.ResetScore();
+        breadGrid.ResetGrid();
+        StartCoroutine(DelayBallsActivation());
     }
 
     private IEnumerator EndGame(PlayerType playerType)
@@ -102,13 +115,5 @@ public class GameManager : Singleton<GameManager>
         jamBall.gameObject.SetActive(true);
         pbBall.ResetBall();
         jamBall.ResetBall();
-    }
-
-    public void ResetGame()
-    {
-        isGameOver = false;
-        scoreManager.ResetScore();
-        breadGrid.ResetGrid();
-        StartCoroutine(DelayBallsActivation());
     }
 }

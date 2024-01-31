@@ -11,13 +11,12 @@ namespace BreadScripts
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
         [SerializeField] private Vector3 breadScale = new(1.7f, 1.7f);
         [SerializeField] private RectTransform scoreBar;
-        private List<Bread> breadsList;
-
+        
+        private HashSet<Bread> allBreads = new();
         private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()
         {
-            breadsList = new List<Bread>();
             breadPrefab.transform.localScale = breadScale;
             
             float scoreBarHeight = (scoreBar != null) ? scoreBar.rect.height / Screen.height * Camera.main.orthographicSize * 2f : 0f;
@@ -35,7 +34,7 @@ namespace BreadScripts
                 {
                     float y = startY + row * (breadSize.y + margin);
                     Bread currBread = Instantiate(breadPrefab, new Vector3(x, y, 0f), Quaternion.identity);
-                    breadsList.Add(currBread);
+                    allBreads.Add(currBread);
                 }
             }
         }
@@ -60,9 +59,20 @@ namespace BreadScripts
         
         public void ResetGrid()
         {
-            foreach (Bread bread in breadsList)
+            foreach (Bread bread in allBreads)
             {
                 bread.ResetBread();
+            }
+        }
+
+        public void ResetBreadType(BreadType breadType)
+        {
+            foreach (var bread in allBreads)
+            {
+                if (bread.CurrentBreadType.Equals(breadType))
+                {
+                    bread.ResetBread();
+                }
             }
         }
     }

@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
 public class Player : MonoBehaviour
 {
@@ -43,7 +40,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) 
     {
         // Check if the colliding GameObject has a specific tag.
-        if (other.gameObject.CompareTag("ball"))
+        if (other.gameObject.CompareTag(Constants.BALL))
         {
             PlayerAnimator.PlayAnimaion(AnimationType.Hit);
             StartCoroutine(playerAnimator.BackToIdle(durationOfHitAnimation));

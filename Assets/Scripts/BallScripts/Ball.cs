@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour
@@ -16,12 +16,16 @@ public class Ball : MonoBehaviour
     
     [SerializeField]
     private float ballOffScreenWaitTime = 1f;
+
+    [SerializeField] private float timeToWaitForSelfGoal = 3.0f;
     
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private PlayerType lastPlayerHit;
     private Vector2 startBallPosition;
     private Sprite startBallSprite;
+    private int jellyLayer;
+    private int pbLayer;
 
     private void Awake()
     {
@@ -29,6 +33,8 @@ public class Ball : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         startBallSprite = spriteRenderer.sprite;
+        jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
+        pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
         LaunchBall();
     }
     
@@ -40,18 +46,18 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag(tag: Constants.PLAYER))
         {
             lastPlayerHit = collision.gameObject.GetComponent<Player>().Stats.PlayerType;
             if (lastPlayerHit == PlayerType.Jelly)
             {
-                UpdateLayer(LayerMask.NameToLayer(BreadType.JellyBread.ToString()));
+                UpdateLayer(jellyLayer);
                 // untested yet
                 spriteRenderer.sprite = jamBallSprite;
             }
             else if (lastPlayerHit == PlayerType.PeanutButter)
             {
-                UpdateLayer(LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString()));
+                UpdateLayer(pbLayer);
                 // untested yet
                 spriteRenderer.sprite = peanutButterBallSprite;
             }
@@ -85,17 +91,25 @@ public class Ball : MonoBehaviour
     
     private IEnumerator ScoredGoal(string tag)
     {
+        var timeToWait = 0f;
+        
         Debug.Log("before wait");
         yield return new WaitForSeconds(ballOffScreenWaitTime);
         Debug.Log(tag + " scored a goal!");
-        if (tag.Equals("JamGoal"))
+        if (tag.Equals(Constants.JAM_GOAL) && gameObject.layer == pbLayer)
         {
-            GameManager.Instance.DecrementScore(PlayerType.Jelly);
+            GameManager.Instance.HandleGoalToPlayer(PlayerType.Jelly);
         }
-        else if (tag.Equals("PeanutButterGoal"))
+        else if (tag.Equals(Constants.PEANUT_BUTTER_GOAL) && gameObject.layer == jellyLayer)
         {
-            GameManager.Instance.DecrementScore(PlayerType.PeanutButter);
+            GameManager.Instance.HandleGoalToPlayer(PlayerType.PeanutButter);
         }
-        ResetBall();
+        else if ((tag.Equals(Constants.JAM_GOAL) && gameObject.layer == jellyLayer) ||
+                 (tag.Equals(Constants.PEANUT_BUTTER_GOAL) && gameObject.layer == pbLayer))
+        {
+            timeToWait = timeToWaitForSelfGoal;
+        }
+
+        Invoke(nameof(ResetBall), timeToWait);
     }
 }
