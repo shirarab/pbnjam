@@ -26,13 +26,14 @@ public class Ball : MonoBehaviour
     private Sprite startBallSprite;
     private int jellyLayer;
     private int pbLayer;
+    private Sprite newBallSprite;
 
     private void Awake()
     {
         startBallPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        startBallSprite = spriteRenderer.sprite;
+        startBallSprite = newBallSprite = spriteRenderer.sprite;
         jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
         pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
         LaunchBall();
@@ -44,6 +45,15 @@ public class Ball : MonoBehaviour
         rb.velocity = rb.velocity.normalized * (speed * Time.deltaTime);
     }
 
+    // to fix changing sprites for an object that has animator
+    private void LateUpdate()
+    {
+        if (spriteRenderer.sprite != newBallSprite)
+        {
+            spriteRenderer.sprite = newBallSprite;
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(tag: Constants.PLAYER))
@@ -53,13 +63,13 @@ public class Ball : MonoBehaviour
             {
                 UpdateLayer(jellyLayer);
                 // untested yet
-                spriteRenderer.sprite = jamBallSprite;
+                newBallSprite = jamBallSprite;
             }
             else if (lastPlayerHit == PlayerType.PeanutButter)
             {
                 UpdateLayer(pbLayer);
                 // untested yet
-                spriteRenderer.sprite = peanutButterBallSprite;
+                newBallSprite = peanutButterBallSprite;
             }
         }
     }
@@ -85,7 +95,7 @@ public class Ball : MonoBehaviour
     public void ResetBall()
     {
         transform.position = startBallPosition;
-        spriteRenderer.sprite = startBallSprite;
+        newBallSprite = startBallSprite;
         LaunchBall();
     }
     

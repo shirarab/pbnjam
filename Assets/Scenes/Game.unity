@@ -2552,7 +2552,7 @@ MonoBehaviour:
   numberOfColumns: 4
   margin: 0.2
   breadSize: {x: 1, y: 1}
-  breadScale: {x: 1.5, y: 1.5, z: 0}
+  breadScale: {x: 1.7, y: 1.7, z: 0}
   scoreBar: {fileID: 730230021}
 --- !u!4 &1200356967
 Transform:
