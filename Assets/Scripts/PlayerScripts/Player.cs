@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            PlayerAnimator.TriggerAnimation(AnimationType.Win);
+            PlayerAnimator.TriggerAnimation(AnimationType.Lose);
         }
     }
 
