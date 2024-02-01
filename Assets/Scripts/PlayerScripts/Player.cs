@@ -75,9 +75,10 @@ public class Player : MonoBehaviour
 
     #region ADDED EVENT SYSTEM----------------------------------------------
 
-    private void playEndOfGameAnimation(PlayerType winner)
+    private void playEndOfGameAnimation(int winner)
     {
-        if(stats.PlayerType == winner)
+        Debug.Log("ENTER - playEndOfGameAnimation");
+        if((int)stats.PlayerType == winner)
         {
             PlayerAnimator.TriggerAnimation(AnimationType.Win);
         }

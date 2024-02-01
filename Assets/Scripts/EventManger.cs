@@ -8,11 +8,11 @@ using System;
 
 public class EventManager : MonoBehaviour
 {
-	public static event Action GameOverAnimation;
+	public static event Action<int> GameOverAnimation;
 	
 	
-	public static void StartEndOfGame()
+	public static void StartEndOfGame(int winner)
 	{
-		GameOverAnimation?.Invoke();
+		GameOverAnimation?.Invoke(winner);
 	}
 }

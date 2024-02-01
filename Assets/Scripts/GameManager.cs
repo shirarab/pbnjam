@@ -100,16 +100,13 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-    private IEnumerator SetWinnerAnimation(PlayerType winner)
-    {
-        EventManager.StartEndOfGame(winner);
-        yield return new WaitForSeconds(gameEndWaitTime);
-    }
-
 
     private IEnumerator SetWinner(PlayerType winner)
     {
-        SetWinnerAnimation(winner);
+        
+        EventManager.StartEndOfGame((int)winner);
+        yield return new WaitForSeconds(gameEndWaitTime);
+
         if (winner == PlayerType.Jelly)
         {
             JamGameOverCanvas.gameObject.SetActive(true);
