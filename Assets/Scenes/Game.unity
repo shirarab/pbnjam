@@ -526,6 +526,18 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4828346
@@ -576,7 +588,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: speed
-      value: 250
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: gravity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: spriteRenderer
@@ -584,6 +600,10 @@ PrefabInstance:
       objectReference: {fileID: 115474050}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: ballOffScreenWaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: currentLastPlayerType
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -761,7 +781,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 100
   m_LinearDrag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
   m_IncludeLayers:
@@ -806,7 +826,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.18485093, y: 1.215752}
+  m_Offset: {x: 0.041774035, y: 1.215752}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -817,7 +837,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.028439, y: 2.3223975}
+  m_Size: {x: 0.5751891, y: 2.3223975}
   m_EdgeRadius: 0
 --- !u!114 &213900731
 MonoBehaviour:
@@ -873,6 +893,7 @@ MonoBehaviour:
     keyUp: 273
     keyDown: 274
   playerAnimator: {fileID: 1430223351}
+  maxBounceAngle: 60
   durationOfHitAnimation: 0
 --- !u!4 &213900733
 Transform:
@@ -901,6 +922,14 @@ PrefabInstance:
     - target: {fileID: 5005633842512012334, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_Name
       value: Wall (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005633842512012334, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005633842512012334, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalScale.y
@@ -953,6 +982,10 @@ PrefabInstance:
     - target: {fileID: 7656997192963980984, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_Offset.x
       value: 0.35605693
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656997192963980984, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9031052755213246065, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_Constraints
@@ -1203,6 +1236,7 @@ MonoBehaviour:
     keyUp: 119
     keyDown: 115
   playerAnimator: {fileID: 1278973684}
+  maxBounceAngle: 60
   durationOfHitAnimation: 0
 --- !u!4 &609340452
 Transform:
@@ -1234,7 +1268,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 100
   m_LinearDrag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1279,7 +1313,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.23461843, y: 1.2015327}
+  m_Offset: {x: 0.03482747, y: 1.2015327}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1290,7 +1324,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.127974, y: 2.293959}
+  m_Size: {x: 0.58908224, y: 2.293959}
   m_EdgeRadius: 0
 --- !u!1 &611395297
 GameObject:
@@ -1404,6 +1438,8 @@ MonoBehaviour:
   JamGameOverCanvas: {fileID: 1074153536}
   gameEndWaitTime: 1
   ballsActivationWaitTime: 0.5
+  gameTime: 60
+  extraGameTime: 10
 --- !u!4 &712657129
 Transform:
   m_ObjectHideFlags: 0
@@ -1876,6 +1912,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5005633842512012334, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005633842512012334, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 7330206768472088439, guid: 76e378dbcae8c6b4cb6823aaddcbd150, type: 3}
       propertyPath: m_LocalScale.y
       value: 20
@@ -2147,6 +2191,18 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: c303804548dd8704ab93973679fe2ef9, type: 2}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702898724970948010, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5341177405411885114, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4877
@@ -2197,7 +2253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: speed
-      value: 250
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: gravity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: spriteRenderer

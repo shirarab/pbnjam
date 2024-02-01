@@ -7,6 +7,7 @@ TagManager:
   - ball
   - JamGoal
   - PeanutButterGoal
+  - Wall
   layers:
   - Default
   - TransparentFX
