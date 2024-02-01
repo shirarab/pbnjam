@@ -27,6 +27,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float extraGameTime = 10.0f;
     
     private bool isGameOver = false;
+
+    #region ADDED arg----------------------------------------------
+    private PlayerType winner;
+    #endregion
     
     void Start()
     {
@@ -100,13 +104,25 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator SetWinner(PlayerType playerType)
     {
-        yield return new WaitForSeconds(gameEndWaitTime);
+        
         if (playerType == PlayerType.Jelly)
         {
+            // TODO: one method
+            winner = playerType.Jelly;
+            EventManager.StartEndOfGame();
+            yield return new WaitForSeconds(gameEndWaitTime);
+            // --------------
+
             JamGameOverCanvas.gameObject.SetActive(true);
         }
         else
         {
+            // TODO: one method
+            winner = playerType.PeanutButter;
+            EventManager.StartEndOfGame();
+            yield return new WaitForSeconds(gameEndWaitTime);
+            // --------------
+
             PbGameOverCanvas.gameObject.SetActive(true);
         }
         pbBall.gameObject.SetActive(false);

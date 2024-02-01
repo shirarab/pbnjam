@@ -73,6 +73,26 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    #region ADDED EVENT SYSTEM----------------------------------------------
+
+    private void playEndOfGameAnimation()
+    {
+        if(stats.PlayerType == winner)
+        {
+            PlayerAnimator.TriggerAnimation(AnimationType.Win);
+        }
+        else
+        {
+            PlayerAnimator.TriggerAnimation(AnimationType.Win);
+        }
+    }
+
+    private void OnDisable()
+    {
+        EventManager.GameOverAnimation -= playEndOfGameAnimation;
+    }
+    #endregion
+
 
     #region START, UPDATE --------------------------------
     
