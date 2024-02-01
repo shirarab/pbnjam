@@ -80,7 +80,7 @@ public class Bread : MonoBehaviour
     {
         if (layersToBreadTypeDict.ContainsKey(other.gameObject.layer) && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
-            if(currentBreadType = BreadType.ToastBread)
+            if(currentBreadType == BreadType.ToastBread)
             {
                 Destroy(gameObject);
             }

@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] 
     private PlayerAnimator playerAnimator; 
+    
+    [SerializeField]
+    private float maxBounceAngle = 45f;
     public PlayerAnimator PlayerAnimator { get => this.playerAnimator; set => this.playerAnimator = value; }
     #endregion
 
@@ -37,13 +40,31 @@ public class Player : MonoBehaviour
 
     
     #region ANIMATION ------------------------------------
-    private void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionEnter2D(Collision2D collision) 
     {
         // Check if the colliding GameObject has a specific tag.
-        if (other.gameObject.CompareTag(Constants.BALL))
+        if (collision.gameObject.CompareTag(Constants.BALL))
         {
+            Vector3 playerPosition = transform.position;
+            Vector2 contactPoint = collision.GetContact(0).point;
+            
+            float offset = playerPosition.y - contactPoint.y;
+            float width = collision.otherCollider.bounds.size.y;
+            Ball ball = collision.gameObject.GetComponent<Ball>();
+            Rigidbody2D ballRb = ball.GetComponent<Rigidbody2D>();
+            float currentAngle = Vector2.SignedAngle(ball.getBallDirection(), ballRb.velocity);
+            float bounceAngle = (offset / width) * maxBounceAngle;
+            float newAngle =Mathf.Clamp( bounceAngle + currentAngle, -maxBounceAngle, maxBounceAngle);
+            Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
+            ballRb.velocity = rotation * ball.getBallDirection() * ballRb.velocity.magnitude;
+            
             PlayerAnimator.PlayAnimaion(AnimationType.Hit);
             StartCoroutine(playerAnimator.BackToIdle(durationOfHitAnimation));
+        }
+        
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
     #endregion
