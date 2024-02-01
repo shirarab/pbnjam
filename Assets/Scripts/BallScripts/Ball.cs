@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Utils;
@@ -19,6 +20,9 @@ public class Ball : MonoBehaviour
 
     [SerializeField] private float timeToWaitForSelfGoal = 3.0f;
     
+    [SerializeField]
+    private PlayerType currentLastPlayerType;
+    
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private PlayerType lastPlayerHit;
@@ -28,6 +32,7 @@ public class Ball : MonoBehaviour
     private int jellyLayer;
     private int pbLayer;
     private Sprite newBallSprite;
+    private Vector2 ballDirection;
 
     private void Awake()
     {
@@ -37,14 +42,33 @@ public class Ball : MonoBehaviour
         startBallSprite = newBallSprite = spriteRenderer.sprite;
         jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
         pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
+        InitializeGravity();
         startBallLayer = gameObject.layer;
         LaunchBall();
     }
     
+    private void InitializeGravity()
+    {
+        // if ball layer is jelly layer, then gravity is set to right, else gravity is set to left
+        if (gameObject.layer == jellyLayer)
+        {
+            ballDirection = new Vector2(-1, 0f);
+        }
+        else if (gameObject.layer == pbLayer)
+        {
+            ballDirection = new Vector2(1, 0f);
+        }
+        
+    }
+    
+    public Vector2 getBallDirection()
+    {
+        return ballDirection;
+    }
+
     void FixedUpdate()
     {
-        // Ensure the ball maintains a constant speed.
-        rb.velocity = rb.velocity.normalized * (speed * Time.deltaTime);
+        rb.velocity = rb.velocity.normalized * speed;
     }
 
     // to fix changing sprites for an object that has animator
@@ -61,27 +85,27 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag(tag: Constants.PLAYER))
         {
             lastPlayerHit = collision.gameObject.GetComponent<Player>().Stats.PlayerType;
-            if (lastPlayerHit == PlayerType.Jelly)
+            if (lastPlayerHit != currentLastPlayerType && lastPlayerHit == PlayerType.Jelly)
             {
                 UpdateLayer(jellyLayer);
+                InitializeGravity();
                 // untested yet
                 newBallSprite = jamBallSprite;
             }
-            else if (lastPlayerHit == PlayerType.PeanutButter)
+            else if (lastPlayerHit != currentLastPlayerType && lastPlayerHit== PlayerType.PeanutButter)
             {
                 UpdateLayer(pbLayer);
                 // untested yet
                 newBallSprite = peanutButterBallSprite;
+                InitializeGravity();
             }
         }
     }
     
     void LaunchBall()
     {
-        // Launch the ball in a random direction.
-        float randomAngle = Random.Range(0, 360f);
-        Vector2 launchDirection = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
-        rb.velocity = launchDirection * speed;
+        // rb.velocity = ballDirection * speed;
+        rb.AddForce(ballDirection * speed);
     }
 
     private void UpdateLayer(int newLayer)
