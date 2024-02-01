@@ -15,7 +15,7 @@ public enum BreadType
 
 public class Bread : MonoBehaviour
 {
-    #region COMPONENTS
+    #region COMPONENTS -------------------------------------
     [SerializeField] 
     private Rigidbody2D rigidBody;
     public Rigidbody2D RigidBody { get => rigidBody;}
@@ -30,15 +30,9 @@ public class Bread : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     #endregion
 
+
+    #region BREAD DATA -------------------------------------
     private Dictionary<int, BreadType> layersToBreadTypeDict;
-
-    // STATS-----------------------------------------------
-    // Bread,
-    // PeanutButterBread,
-    // JellyBread,
-    // ToastBread
-    
-
 
 
     [SerializeField]
@@ -49,9 +43,10 @@ public class Bread : MonoBehaviour
     [SerializeField]
     // NOTE: the order of the list is important
     private Sprite[] breadSprites;
+    #endregion
 
-    // STATS-----------------------------------------------
 
+    #region MONO BEHAVIOUR ---------------------------------
     private void Start()
     {
         layersToBreadTypeDict = new()
@@ -76,18 +71,28 @@ public class Bread : MonoBehaviour
         spriteRenderer.sprite = breadSprites[(int)currentBreadType];;
     }
 
+    #endregion
 
 
-    // TRIGER LOGIC------------------------
+
+    #region CLASS METHODS ----------------------------------
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (layersToBreadTypeDict.ContainsKey(other.gameObject.layer) && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
         {
+            if(currentBreadType = BreadType.ToastBread)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
             GameManager.Instance.UpdateScoreByBread(layersToBreadTypeDict[other.gameObject.layer], currentBreadType);
             // GameManager.Instance.IncrementScoreByBread(layersToBreadTypeDict[other.gameObject.layer], currentBreadType);
-            UpdateBreadTypeAndSprite(other);
+            UpdateBreadTypeAndSprite(other);   
+            }
         }
     }
+
 
 
 
@@ -101,11 +106,15 @@ public class Bread : MonoBehaviour
     }
 
 
+
+
     void UpdateBreadLayer(int newLayer)
     {
         gameObject.layer = newLayer;
     }
-    // TRIGER LOGIC------------------------
+    
+
+
     
     public void ResetBread()
     {
@@ -113,4 +122,5 @@ public class Bread : MonoBehaviour
         spriteRenderer.sprite = breadSprites[(int)currentBreadType];
         UpdateBreadLayer(LayerMask.NameToLayer(BreadType.Bread.ToString()));
     }
+    #endregion
 }
