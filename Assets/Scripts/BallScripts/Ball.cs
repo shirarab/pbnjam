@@ -28,6 +28,7 @@ public class Ball : MonoBehaviour
     private PlayerType lastPlayerHit;
     private Vector2 startBallPosition;
     private Sprite startBallSprite;
+    private int startBallLayer;
     private int jellyLayer;
     private int pbLayer;
     private Sprite newBallSprite;
@@ -42,6 +43,7 @@ public class Ball : MonoBehaviour
         jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
         pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
         InitializeGravity();
+        startBallLayer = gameObject.layer;
         LaunchBall();
     }
     
@@ -120,6 +122,7 @@ public class Ball : MonoBehaviour
     {
         transform.position = startBallPosition;
         newBallSprite = startBallSprite;
+        UpdateLayer(startBallLayer);
         LaunchBall();
     }
     
