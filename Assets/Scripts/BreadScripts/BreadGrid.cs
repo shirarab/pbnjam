@@ -68,15 +68,20 @@ namespace BreadScripts
             }
         }
 
-        public void ResetBreadType(BreadType breadType)
+        public int ResetBreadType(BreadType breadType)
         {
+            int resetCount = 0;
+            
             foreach (var bread in allBreads)
             {
                 if (bread.CurrentBreadType.Equals(breadType))
                 {
                     bread.ResetBread();
+                    resetCount += 1;
                 }
             }
+
+            return resetCount;
         }
 
         public Dictionary<BreadType, int> GetBreadCounts()

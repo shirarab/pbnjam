@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using BreadScripts;
 using ScoreScripts;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -44,7 +43,9 @@ public class GameManager : Singleton<GameManager>
     public void HandleGoalToPlayer(PlayerType player)
     {
         var breadToReset = player == PlayerType.Jelly ? BreadType.JellyBread : BreadType.PeanutButterBread;
-        breadGrid.ResetBreadType(breadToReset);
+        var resetCount = breadGrid.ResetBreadType(breadToReset);
+        var toRemove = breadToReset == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+        scoreManager.RemovePoints(resetCount, toRemove);
     }
     
 	public void UpdateScoreByBread(BreadType ballType, BreadType breadType)
