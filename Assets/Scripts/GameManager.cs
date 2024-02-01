@@ -28,9 +28,6 @@ public class GameManager : Singleton<GameManager>
     
     private bool isGameOver = false;
 
-    #region ADDED arg----------------------------------------------
-    private PlayerType winner;
-    #endregion
     
     void Start()
     {
@@ -102,27 +99,23 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(DelayBallsActivation());
     }
 
-    private IEnumerator SetWinner(PlayerType playerType)
-    {
-        
-        if (playerType == PlayerType.Jelly)
-        {
-            // TODO: one method
-            winner = playerType.Jelly;
-            EventManager.StartEndOfGame();
-            yield return new WaitForSeconds(gameEndWaitTime);
-            // --------------
 
+    private IEnumerator SetWinnerAnimation(PlayerType winner)
+    {
+        EventManager.StartEndOfGame(winner);
+        yield return new WaitForSeconds(gameEndWaitTime);
+    }
+
+
+    private IEnumerator SetWinner(PlayerType winner)
+    {
+        SetWinnerAnimation(winner);
+        if (winner == PlayerType.Jelly)
+        {
             JamGameOverCanvas.gameObject.SetActive(true);
         }
         else
         {
-            // TODO: one method
-            winner = playerType.PeanutButter;
-            EventManager.StartEndOfGame();
-            yield return new WaitForSeconds(gameEndWaitTime);
-            // --------------
-
             PbGameOverCanvas.gameObject.SetActive(true);
         }
         pbBall.gameObject.SetActive(false);
