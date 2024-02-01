@@ -14,6 +14,8 @@ namespace BreadScripts
         [SerializeField] private RectTransform scoreBar;
         
         private HashSet<Bread> allBreads = new();
+		private Dictionary<BreadType, int> breadsCount = new();
+		
         private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()

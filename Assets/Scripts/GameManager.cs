@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using BreadScripts;
 using ScoreScripts;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -45,6 +46,29 @@ public class GameManager : Singleton<GameManager>
         breadGrid.ResetBreadType(breadToReset);
     }
     
+	public void UpdateScoreByBread(BreadType ballType, BreadType breadType)
+	{
+		PlayerType? toAdd = null;
+		PlayerType? toRemove = null;
+		
+		if (breadType == BreadType.Bread)
+		{
+			toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+		}
+		else if (breadType == BreadType.ToastBread)
+		{
+			// todo something
+		}
+		else if (breadType != ballType)
+		{
+			toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+			toRemove = breadType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+		}
+		
+		if (toAdd != null) scoreManager.AddPoints(1, toAdd.Value);
+        if (toRemove != null) scoreManager.RemovePoints(1, toRemove.Value);
+    }
+	
     // public void IncrementScore(PlayerType playerType)
     // {
     //     scoreManager.AddPoints(1, playerType);
@@ -56,31 +80,7 @@ public class GameManager : Singleton<GameManager>
     //     scoreManager.RemovePoints(1, playerType);
     // }
     //
-    // public void IncrementScoreByBread(BreadType ballType, BreadType breadType)
-    // {
-    //     if (isGameOver) return;
-    //     var pointToAdd = 0;
-    //     if (breadType == ballType)
-    //     {
-    //         pointToAdd = 0;
-    //     }
-    //     else if (breadType == BreadType.Bread)
-    //     {
-    //         pointToAdd = 1;
-    //     }
-    //     else if (breadType == BreadType.ToastBread)
-    //     {
-    //         // todo something
-    //     }
-    //     else if (breadType != ballType)
-    //     {
-    //         pointToAdd = 1;
-    //     }
     //
-    //     var playerType = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
-    //     scoreManager.AddPoints(pointToAdd, playerType);
-    // }
-    
     // public void IsGameOver(PlayerType playerType, int currentScore, int maxScore)
     // {
     //     if (currentScore >= maxScore)
