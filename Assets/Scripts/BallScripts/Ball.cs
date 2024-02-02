@@ -130,9 +130,9 @@ public class Ball : MonoBehaviour
     {
         var timeToWait = 0f;
         
-        Debug.Log("before wait");
+        // Debug.Log("before wait");
         yield return new WaitForSeconds(ballOffScreenWaitTime);
-        Debug.Log(tag + " scored a goal!");
+        // Debug.Log(tag + " scored a goal!");
         if (tag.Equals(Constants.JAM_GOAL) && gameObject.layer == pbLayer)
         {
             GameManager.Instance.HandleGoalToPlayer(PlayerType.Jelly);
