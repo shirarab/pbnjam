@@ -17,8 +17,8 @@ public class Ball : MonoBehaviour
     
     [SerializeField]
     private float ballOffScreenWaitTime = 1f;
-
-    [SerializeField] private float timeToWaitForSelfGoal = 3.0f;
+    
+    [SerializeField] private float launchDelay = 2.0f;
     
     [SerializeField]
     private PlayerType currentLastPlayerType;
@@ -33,6 +33,7 @@ public class Ball : MonoBehaviour
     private int pbLayer;
     private Sprite newBallSprite;
     private Vector2 ballDirection;
+    private Vector2 originalBallDirection;
 
     private void Awake()
     {
@@ -42,12 +43,25 @@ public class Ball : MonoBehaviour
         startBallSprite = newBallSprite = spriteRenderer.sprite;
         jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
         pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
-        InitializeGravity();
         startBallLayer = gameObject.layer;
-        LaunchBall();
+        InitializeOriginalBallDirection();
+        ballDirection = originalBallDirection;
+        ResetBall();
     }
     
-    private void InitializeGravity()
+    private void InitializeOriginalBallDirection()
+    {
+        if (gameObject.layer == jellyLayer)
+        {
+            originalBallDirection = new Vector2(-1, 0f);
+        }
+        else if (gameObject.layer == pbLayer)
+        {
+            originalBallDirection = new Vector2(1, 0f);
+        }
+    }
+    
+    private void UpdateGravity()
     {
         // if ball layer is jelly layer, then gravity is set to right, else gravity is set to left
         if (gameObject.layer == jellyLayer)
@@ -88,16 +102,14 @@ public class Ball : MonoBehaviour
             if (lastPlayerHit != currentLastPlayerType && lastPlayerHit == PlayerType.Jelly)
             {
                 UpdateLayer(jellyLayer);
-                InitializeGravity();
-                // untested yet
+                UpdateGravity();
                 newBallSprite = jamBallSprite;
             }
             else if (lastPlayerHit != currentLastPlayerType && lastPlayerHit== PlayerType.PeanutButter)
             {
                 UpdateLayer(pbLayer);
-                // untested yet
                 newBallSprite = peanutButterBallSprite;
-                InitializeGravity();
+                UpdateGravity();
             }
         }
     }
@@ -105,7 +117,7 @@ public class Ball : MonoBehaviour
     void LaunchBall()
     {
         // rb.velocity = ballDirection * speed;
-        rb.AddForce(ballDirection * speed);
+        rb.AddForce(originalBallDirection * speed);
     }
 
     private void UpdateLayer(int newLayer)
@@ -120,19 +132,17 @@ public class Ball : MonoBehaviour
 
     public void ResetBall()
     {
+        Debug.Log("Resetting ball");
         transform.position = startBallPosition;
         newBallSprite = startBallSprite;
+        rb.velocity = Vector2.zero;
         UpdateLayer(startBallLayer);
-        LaunchBall();
+        Invoke(nameof(LaunchBall), launchDelay);
     }
     
     private IEnumerator ScoredGoal(string tag)
     {
-        var timeToWait = 0f;
-        
-        // Debug.Log("before wait");
         yield return new WaitForSeconds(ballOffScreenWaitTime);
-        // Debug.Log(tag + " scored a goal!");
         if (tag.Equals(Constants.JAM_GOAL) && gameObject.layer == pbLayer)
         {
             GameManager.Instance.HandleGoalToPlayer(PlayerType.Jelly);
@@ -141,12 +151,6 @@ public class Ball : MonoBehaviour
         {
             GameManager.Instance.HandleGoalToPlayer(PlayerType.PeanutButter);
         }
-        else if ((tag.Equals(Constants.JAM_GOAL) && gameObject.layer == jellyLayer) ||
-                 (tag.Equals(Constants.PEANUT_BUTTER_GOAL) && gameObject.layer == pbLayer))
-        {
-            timeToWait = timeToWaitForSelfGoal;
-        }
-
-        Invoke(nameof(ResetBall), timeToWait);
+        ResetBall();
     }
 }

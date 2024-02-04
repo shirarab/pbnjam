@@ -30,12 +30,12 @@ public class GameManager : Singleton<GameManager>
     
     void Start()
     {
-        InitializeGame();
-    }
-
-    void InitializeGame()
-    {
+        // initialize the game
         breadGrid.GenerateGrid();
+    }
+    
+    public void StartGame()
+    {
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
     }
@@ -98,6 +98,7 @@ public class GameManager : Singleton<GameManager>
         scoreManager.ResetScore();
         breadGrid.ResetGrid();
         StartCoroutine(DelayBallsActivation());
+        StartCoroutine(GameTimer(gameTime));
     }
 
 
