@@ -98,7 +98,6 @@ public class Player : MonoBehaviour
 
     private void playEndOfGameAnimation(int winner)
     {
-        Debug.Log("ENTER - playEndOfGameAnimation");
         if((int)stats.PlayerType == winner)
         {
             PlayerAnimator.TriggerAnimation(AnimationType.Win);
