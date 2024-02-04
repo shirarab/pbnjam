@@ -107,6 +107,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aa6a812beb5e4e3439d6161b720e73f4, type: 3}
   - {fileID: 21300000, guid: dd5a8f9a97899564993fbaf0c4401c08, type: 3}
   - {fileID: 21300000, guid: 12051270bd7858e4eb125ff5c7068975, type: 3}
+  animator: {fileID: 1816379844219636336}
 --- !u!61 &2288875260262978396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -187,7 +188,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8068106997835965525}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3401d797d7dfced489b0e547dab34ca9, type: 2}
   m_CullingMode: 0

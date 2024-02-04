@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 
@@ -14,6 +16,8 @@ public enum BreadType
 
 public class Bread : MonoBehaviour
 {
+    private const string AnimationTriggerFormat = "{0}To{1}";
+
     #region COMPONENTS -------------------------------------
     [SerializeField] 
     private Rigidbody2D rigidBody;
@@ -42,6 +46,8 @@ public class Bread : MonoBehaviour
     [SerializeField]
     // NOTE: the order of the list is important
     private Sprite[] breadSprites;
+    
+    [SerializeField] private Animator animator;
     #endregion
 
 
@@ -75,6 +81,7 @@ public class Bread : MonoBehaviour
 
 
     #region CLASS METHODS ----------------------------------
+    
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (layersToBreadTypeDict.ContainsKey(other.gameObject.layer) && layersToBreadTypeDict[other.gameObject.layer] != currentBreadType)
@@ -97,11 +104,12 @@ public class Bread : MonoBehaviour
 
     void UpdateBreadTypeAndSprite(Collision2D other)
     {
-        currentBreadType = layersToBreadTypeDict[other.gameObject.layer];
+        var newBreadType = layersToBreadTypeDict[other.gameObject.layer];
+        var animationTriggerName = string.Format(AnimationTriggerFormat, currentBreadType.ToString(), newBreadType.ToString());
+        animator.SetTrigger(animationTriggerName);
         
-        spriteRenderer.sprite = breadSprites[(int)currentBreadType];
+        currentBreadType = newBreadType;
         UpdateBreadLayer(other.gameObject.layer);
-
     }
 
 
@@ -112,13 +120,14 @@ public class Bread : MonoBehaviour
         gameObject.layer = newLayer;
     }
     
-
-
     
     public void ResetBread()
     {
+        var newBreadType = BreadType.Bread;
+        var animationTriggerName = string.Format(AnimationTriggerFormat, currentBreadType.ToString(), newBreadType.ToString());
+        
         currentBreadType = BreadType.Bread;
-        spriteRenderer.sprite = breadSprites[(int)currentBreadType];
+        animator.SetTrigger(animationTriggerName);
         UpdateBreadLayer(LayerMask.NameToLayer(BreadType.Bread.ToString()));
     }
     #endregion
