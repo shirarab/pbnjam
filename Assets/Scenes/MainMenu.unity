@@ -670,8 +670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad469c93b71f2744b41dfafb39a9509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instructionsCanvas: {fileID: 0}
-  instructionsWaitTime: 10
 --- !u!1 &691336144
 GameObject:
   m_ObjectHideFlags: 0
