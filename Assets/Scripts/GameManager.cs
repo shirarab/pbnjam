@@ -7,39 +7,33 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public BreadGrid breadGrid;
-    [SerializeField]
-    private Score scoreManager;
-    [SerializeField]
-    private Ball pbBall;
-    [SerializeField]
-    private Ball jamBall;
-    [SerializeField]
-    private Canvas PbGameOverCanvas;
-    [SerializeField]
-    private Canvas JamGameOverCanvas;
-    [SerializeField] 
-    private float gameEndWaitTime = 1f;
-    [SerializeField]
-    private float ballsActivationWaitTime = 0.5f;
-
+    [SerializeField] private Score scoreManager;
+    [SerializeField] private Ball pbBall;
+    [SerializeField] private Ball jamBall;
+    [SerializeField] private Canvas PbGameOverCanvas;
+    [SerializeField] private Canvas JamGameOverCanvas;
+    [SerializeField] private float gameEndWaitTime = 1f;
+    [SerializeField] private float ballsActivationWaitTime = 0.5f;
     [SerializeField] private float gameTime = 60.0f;
     [SerializeField] private float extraGameTime = 10.0f;
-    
+    [SerializeField] private AudioSource gameMusic;
+    [SerializeField] private AudioSource sfx;
+
     private bool isGameOver = false;
 
-    
+
     void Start()
     {
         // initialize the game
         breadGrid.GenerateGrid();
     }
-    
+
     public void StartGame()
     {
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
     }
-    
+
     public void HandleGoalToPlayer(PlayerType player)
     {
         var breadToReset = player == PlayerType.Jelly ? BreadType.JellyBread : BreadType.PeanutButterBread;
@@ -48,29 +42,34 @@ public class GameManager : Singleton<GameManager>
         scoreManager.RemovePoints(resetCount, toRemove);
     }
     
-	public void UpdateScoreByBread(BreadType ballType, BreadType breadType)
-	{
-		PlayerType? toAdd = null;
-		PlayerType? toRemove = null;
-		
-		if (breadType == BreadType.Bread)
-		{
-			toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
-		}
-		else if (breadType == BreadType.ToastBread)
-		{
-			// todo something
-		}
-		else if (breadType != ballType)
-		{
-			toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
-			toRemove = breadType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
-		}
-		
-		if (toAdd != null) scoreManager.AddPoints(1, toAdd.Value);
+    public void PlaySound(AudioClip sound)
+    {
+        sfx.PlayOneShot(sound);
+    }
+
+    public void UpdateScoreByBread(BreadType ballType, BreadType breadType)
+    {
+        PlayerType? toAdd = null;
+        PlayerType? toRemove = null;
+
+        if (breadType == BreadType.Bread)
+        {
+            toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+        }
+        else if (breadType == BreadType.ToastBread)
+        {
+            // todo something
+        }
+        else if (breadType != ballType)
+        {
+            toAdd = ballType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+            toRemove = breadType == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
+        }
+
+        if (toAdd != null) scoreManager.AddPoints(1, toAdd.Value);
         if (toRemove != null) scoreManager.RemovePoints(1, toRemove.Value);
     }
-	
+
     // public void IncrementScore(PlayerType playerType)
     // {
     //     scoreManager.AddPoints(1, playerType);
@@ -91,7 +90,7 @@ public class GameManager : Singleton<GameManager>
     //         StartCoroutine(SetWinner(playerType));
     //     }
     // }
-    
+
     public void ResetGame()
     {
         isGameOver = false;
@@ -102,10 +101,8 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-
     private IEnumerator SetWinner(PlayerType winner)
     {
-        
         EventManager.StartEndOfGame((int)winner);
         yield return new WaitForSeconds(gameEndWaitTime);
 
@@ -117,10 +114,11 @@ public class GameManager : Singleton<GameManager>
         {
             PbGameOverCanvas.gameObject.SetActive(true);
         }
+
         pbBall.gameObject.SetActive(false);
         jamBall.gameObject.SetActive(false);
     }
-    
+
     private IEnumerator DelayBallsActivation()
     {
         yield return new WaitForSeconds(ballsActivationWaitTime);
@@ -129,9 +127,11 @@ public class GameManager : Singleton<GameManager>
         pbBall.ResetBall();
         jamBall.ResetBall();
     }
-    
-    private IEnumerator GameTimer(float time) {
-        while(true) {
+
+    private IEnumerator GameTimer(float time)
+    {
+        while (true)
+        {
             yield return new WaitForSeconds(time);
             EndGame();
         }
@@ -147,7 +147,7 @@ public class GameManager : Singleton<GameManager>
             StartCoroutine(GameTimer(extraGameTime));
             return;
         }
-        
+
         var winner = winnerBread == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
         StartCoroutine(SetWinner(winner));
     }
