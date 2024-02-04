@@ -117,7 +117,7 @@ public class Ball : MonoBehaviour
     void LaunchBall()
     {
         // rb.velocity = ballDirection * speed;
-        rb.AddForce(originalBallDirection * speed);
+        rb.AddForce(-originalBallDirection * speed);
     }
 
     private void UpdateLayer(int newLayer)
