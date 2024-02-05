@@ -22,14 +22,10 @@ public class GameManager : Singleton<GameManager>
     private bool isGameOver = false;
 
 
-    void Start()
+    public void StartGame()
     {
         // initialize the game
         breadGrid.GenerateGrid();
-    }
-
-    public void StartGame()
-    {
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
     }
