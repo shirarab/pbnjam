@@ -18,6 +18,9 @@ namespace ScoreScripts
         [SerializeField]
         private int maxScore = 5;
         private Dictionary<PlayerType, int> playerScores;
+        
+        [SerializeField]
+        private Animator animator;
         #endregion
         
         private void Start()
@@ -61,6 +64,9 @@ namespace ScoreScripts
                 Debug.LogError("Score text is null");
                 return;
             }
+            animator.SetInteger("pbScore", playerScores[PlayerType.PeanutButter]);
+            animator.SetInteger("jamScore", playerScores[PlayerType.Jelly]);
+
             peanutButterText.text = string.Format(c_scoreFormat, playerScores[PlayerType.PeanutButter].ToString().PadLeft(2, '0'));
             jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly].ToString().PadLeft(2, '0'));
         }
