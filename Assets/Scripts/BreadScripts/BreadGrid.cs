@@ -14,8 +14,7 @@ namespace BreadScripts
         [SerializeField] private RectTransform scoreBar;
         
         private HashSet<Bread> allBreads = new();
-		private Dictionary<BreadType, int> breadsCount = new();
-		
+
         private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()
@@ -84,7 +83,7 @@ namespace BreadScripts
             return resetCount;
         }
 
-        public Dictionary<BreadType, int> GetBreadCounts()
+        public Dictionary<BreadType, int> GetBreadCountsByType()
         {
             var breadCounts = new Dictionary<BreadType, int>();
 
@@ -99,6 +98,11 @@ namespace BreadScripts
             }
 
             return breadCounts;
+        }
+
+        public int GetNumberOfBreads()
+        {
+            return allBreads.Count;
         }
     }
 }

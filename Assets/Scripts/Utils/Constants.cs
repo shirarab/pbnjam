@@ -14,5 +14,8 @@
         public const string BREAD = "Bread";
 
         #endregion
+
+        public const string PB_SCORE = "pbScore";
+        public const string JAM_SCORE = "jamScore";
     }
 }

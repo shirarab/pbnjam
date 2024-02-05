@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace ScoreScripts
 {
@@ -11,16 +12,17 @@ namespace ScoreScripts
         #endregion
         
         #region Score fields
-        [SerializeField] 
-        private Text peanutButterText;
-        [SerializeField]
-        private Text jamText;
         [SerializeField]
         private int maxScore = 5;
         private Dictionary<PlayerType, int> playerScores;
         
         [SerializeField]
-        private Animator animator;
+        private Animator pbAnimator;
+        
+        [SerializeField]
+        private Animator jamAnimator;
+
+        private int numberOfBreads;
         #endregion
         
         private void Start()
@@ -59,17 +61,19 @@ namespace ScoreScripts
 
         private void UpdateScoreText()
         {
-            if (peanutButterText == null || jamText == null)
-            {
-                Debug.LogError("Score text is null");
-                return;
-            }
-            animator.SetInteger("pbScore", playerScores[PlayerType.PeanutButter]);
-            animator.SetInteger("jamScore", playerScores[PlayerType.Jelly]);
+            float pbScorePercentage = (float)playerScores[PlayerType.PeanutButter] / numberOfBreads;
+            float jamScorePercentage = (float)playerScores[PlayerType.Jelly] / numberOfBreads;
 
-            peanutButterText.text = string.Format(c_scoreFormat, playerScores[PlayerType.PeanutButter].ToString().PadLeft(2, '0'));
-            jamText.text = string.Format(c_scoreFormat, playerScores[PlayerType.Jelly].ToString().PadLeft(2, '0'));
+            int pbScoreValue = Mathf.RoundToInt(pbScorePercentage * maxScore);
+            int jamScoreValue = Mathf.RoundToInt(jamScorePercentage * maxScore);
+            
+            pbAnimator.SetInteger(Constants.PB_SCORE, pbScoreValue);
+            jamAnimator.SetInteger(Constants.JAM_SCORE, jamScoreValue);
         }
-        
+
+        public void SetNumberOfBreads(int num)
+        {
+            numberOfBreads = num;
+        }
     }
 }

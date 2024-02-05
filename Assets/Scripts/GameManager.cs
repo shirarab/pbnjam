@@ -26,6 +26,7 @@ public class GameManager : Singleton<GameManager>
     {
         // initialize the game
         breadGrid.GenerateGrid();
+        scoreManager.SetNumberOfBreads(breadGrid.GetNumberOfBreads());
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
     }
@@ -135,7 +136,7 @@ public class GameManager : Singleton<GameManager>
 
     private void EndGame()
     {
-        var breadCounts = breadGrid.GetBreadCounts();
+        var breadCounts = breadGrid.GetBreadCountsByType();
         var winnerBread = breadCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
 
         if (winnerBread != BreadType.JellyBread && winnerBread != BreadType.PeanutButterBread)
