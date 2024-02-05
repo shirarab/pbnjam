@@ -54,7 +54,7 @@ namespace BreadScripts
             float centerY = Camera.main.transform.position.y;
             float halfHeight = Camera.main.orthographicSize;
 
-            centerY -= (scoreBarHeight / 2f);
+            centerY += (scoreBarHeight / 2f);
             halfHeight -= (scoreBarHeight / 2f);
 
             return centerY - halfHeight + (breadSize.y + margin) / 2f;
