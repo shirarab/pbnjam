@@ -19,6 +19,7 @@ namespace BreadScripts
         
         internal void GenerateGrid()
         {
+            numberOfColumns = 0;
             breadPrefab.transform.localScale = breadScale;
             
             float scoreBarHeight = (scoreBar != null) ? scoreBar.rect.height / Screen.height * Camera.main.orthographicSize * 2f : 0f;

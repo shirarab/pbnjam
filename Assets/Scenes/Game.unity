@@ -675,6 +675,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 115474048}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: goalDelay
       value: 2
       objectReference: {fileID: 0}
@@ -686,6 +690,10 @@ PrefabInstance:
       propertyPath: spriteRenderer
       value: 
       objectReference: {fileID: 115474050}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: playerTypeOfBall
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: ballOffScreenWaitTime
       value: 1
@@ -2913,6 +2921,10 @@ PrefabInstance:
       propertyPath: gravity
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 11354082}
     - target: {fileID: 6617031995652989814, guid: 344f2883685bf4b498a4ddb6effb3a40, type: 3}
       propertyPath: goalDelay
       value: 2

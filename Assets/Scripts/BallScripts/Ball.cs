@@ -1,19 +1,11 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Utils;
-using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour
 {
     [SerializeField]
     private float speed = 10f;
-
-    [SerializeField]
-    private Sprite peanutButterBallSprite;
-    
-    [SerializeField]
-    private Sprite jamBallSprite;
     
     [SerializeField]
     private float ballOffScreenWaitTime = 1f;
@@ -21,31 +13,32 @@ public class Ball : MonoBehaviour
     [SerializeField] private float launchDelay = 2.0f;
     
     [SerializeField]
-    private PlayerType currentLastPlayerType;
+    private PlayerType ballOfPlayerType;
     
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
+
     private Rigidbody2D rb;
     private PlayerType lastPlayerHit;
     private Vector2 startBallPosition;
-    private Sprite startBallSprite;
     private int startBallLayer;
     private int jellyLayer;
     private int pbLayer;
     private Sprite newBallSprite;
     private Vector2 ballDirection;
     private Vector2 originalBallDirection;
+    private bool isJamBall;
 
     private void Awake()
     {
         startBallPosition = GetComponent<Transform>().position;
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        startBallSprite = newBallSprite = spriteRenderer.sprite;
+        GetComponent<SpriteRenderer>();
         jellyLayer = LayerMask.NameToLayer(BreadType.JellyBread.ToString());
         pbLayer = LayerMask.NameToLayer(BreadType.PeanutButterBread.ToString());
         startBallLayer = gameObject.layer;
         InitializeOriginalBallDirection();
         ballDirection = originalBallDirection;
+        isJamBall = ballOfPlayerType == PlayerType.Jelly;
         ResetBall();
     }
     
@@ -85,31 +78,26 @@ public class Ball : MonoBehaviour
         rb.velocity = rb.velocity.normalized * speed;
     }
 
-    // to fix changing sprites for an object that has animator
-    private void LateUpdate()
-    {
-        if (spriteRenderer.sprite != newBallSprite)
-        {
-            spriteRenderer.sprite = newBallSprite;
-        }
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(tag: Constants.PLAYER))
         {
             lastPlayerHit = collision.gameObject.GetComponent<Player>().Stats.PlayerType;
-            if (lastPlayerHit != currentLastPlayerType && lastPlayerHit == PlayerType.Jelly)
+            if (lastPlayerHit != ballOfPlayerType && lastPlayerHit == PlayerType.Jelly)
             {
                 UpdateLayer(jellyLayer);
                 UpdateGravity();
-                newBallSprite = jamBallSprite;
+                animator.SetBool(Constants.IS_JAM_BALL, true);
             }
-            else if (lastPlayerHit != currentLastPlayerType && lastPlayerHit== PlayerType.PeanutButter)
+            else if (lastPlayerHit != ballOfPlayerType && lastPlayerHit== PlayerType.PeanutButter)
             {
                 UpdateLayer(pbLayer);
-                newBallSprite = peanutButterBallSprite;
                 UpdateGravity();
+                animator.SetBool(Constants.IS_JAM_BALL, false);
+            }
+            else if (lastPlayerHit == ballOfPlayerType && animator.GetBool(Constants.IS_JAM_BALL) != isJamBall)
+            {
+                animator.SetBool(Constants.IS_JAM_BALL, isJamBall);
             }
         }
     }
@@ -134,7 +122,7 @@ public class Ball : MonoBehaviour
     {
         Debug.Log("Resetting ball");
         transform.position = startBallPosition;
-        newBallSprite = startBallSprite;
+        animator.SetBool(Constants.IS_JAM_BALL, isJamBall);
         rb.velocity = Vector2.zero;
         UpdateLayer(startBallLayer);
         Invoke(nameof(LaunchBall), launchDelay);
