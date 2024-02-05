@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Utils;
 
 namespace BreadScripts
@@ -19,14 +20,15 @@ namespace BreadScripts
         
         internal void GenerateGrid()
         {
+            var cameraMain = Camera.main;
             breadPrefab.transform.localScale = breadScale;
             
-            float scoreBarHeight = (scoreBar != null) ? scoreBar.rect.height / Screen.height * Camera.main.orthographicSize * 2f : 0f;
+            float scoreBarHeight = (!scoreBar.IsUnityNull()) ? scoreBar.rect.height / Screen.height * cameraMain.orthographicSize * 2f : 0f;
             
             float startX = -(numberOfColumns - 1) * (breadSize.x + margin) / 2f; // same as: -(columns * (breadSize.x + margin)) / 2f + (breadSize.x + margin) / 2f;
-            float startY = CalculateStartingYPosition(scoreBarHeight) + margin;
+            float startY = CalculateStartingYPosition(scoreBarHeight, cameraMain) + margin;
             
-            int numberOfRows = CalculateNumberOfRows(scoreBarHeight);
+            int numberOfRows = CalculateNumberOfRows(scoreBarHeight, cameraMain);
 
             for (int col = 0; col < numberOfColumns; col++)
             {
@@ -41,17 +43,17 @@ namespace BreadScripts
             }
         }
 
-        private int CalculateNumberOfRows(float scoreBarHeight)
+        private int CalculateNumberOfRows(float scoreBarHeight, Camera cameraMain)
         {
-            float screenHeight = Camera.main != null ? Camera.main.orthographicSize * 2f : SCREEN_HEIGHT;
+            float screenHeight = !cameraMain.IsUnityNull() ? cameraMain.orthographicSize * 2f : SCREEN_HEIGHT;
             screenHeight -= scoreBarHeight;
             return Mathf.FloorToInt(screenHeight / (breadSize.y + margin));
         }
         
-        private float CalculateStartingYPosition(float scoreBarHeight)
+        private float CalculateStartingYPosition(float scoreBarHeight, Camera cameraMain)
         {
-            float centerY = Camera.main.transform.position.y;
-            float halfHeight = Camera.main.orthographicSize;
+            float centerY = cameraMain.transform.position.y;
+            float halfHeight = cameraMain.orthographicSize;
 
             centerY += (scoreBarHeight / 2f);
             halfHeight -= (scoreBarHeight / 2f);
