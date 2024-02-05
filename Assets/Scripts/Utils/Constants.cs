@@ -17,5 +17,6 @@
 
         public const string PB_SCORE = "pbScore";
         public const string JAM_SCORE = "jamScore";
+        public const string IS_JAM_BALL = "isJamBall";
     }
 }
