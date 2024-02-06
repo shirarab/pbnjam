@@ -5,21 +5,31 @@ using UnityEngine;
 
 public class ToastSpawner : MonoBehaviour
 {
+
+    #region  BOREDER POINTS
     [SerializeField] private float maxLeft;
     [SerializeField] private float maxRight;
     [SerializeField] private float maxTop;
     [SerializeField] private float maxDown; 
     [SerializeField] private float spawnRate = 5.0f;
-
+    #endregion
     
+    #region  SPAWN POINTS
     [SerializeField] private Vector3 pbPoint;
     [SerializeField] private Vector3 jamPoint;
+
+    //TODO? [SerializeField] private Vector3 toasterPoint;
+    #endregion
+
     [SerializeField] private float speed;
 
+    #region GAME OBJECTS
     [SerializeField] GameObject pbToast;
     [SerializeField] GameObject jamToast;
+    #endregion
 
-    #region  ANIMATION————————————————-
+
+    #region  ANIMATION
 
     private Animator toastAnimator;
     [SerializeField]private float toastAnimatiomHelper;
@@ -29,8 +39,6 @@ public class ToastSpawner : MonoBehaviour
     {
         toastAnimator.SetBool("toastAnimationState", animationState);
     }
-
-
     #endregion
 
     private void InitializePoints()
@@ -65,9 +73,11 @@ public class ToastSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(spawnRate);
+            //ANIMATION
             TriggerAnimation(true);
             yield return new WaitForSeconds(toastAnimatiomHelper); 
             TriggerAnimation(false);
+            //————————-
             InitializePoints();
             MoveToSpawnPoint();
         }
