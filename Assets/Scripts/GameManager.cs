@@ -18,7 +18,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float extraGameTime = 10.0f;
     [SerializeField] private AudioSource gameMusic;
     [SerializeField] private AudioSource sfx;
-
     private bool isGameOver = false;
 
 
