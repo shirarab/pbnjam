@@ -8,6 +8,8 @@ TagManager:
   - JamGoal
   - PeanutButterGoal
   - Wall
+  - PeanutButterToast
+  - JamToast
   layers:
   - Default
   - TransparentFX

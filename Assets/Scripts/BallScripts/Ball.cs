@@ -120,7 +120,6 @@ public class Ball : MonoBehaviour
 
     public void ResetBall()
     {
-        Debug.Log("Resetting ball");
         transform.position = startBallPosition;
         animator.SetBool(Constants.IS_JAM_BALL, isJamBall);
         rb.velocity = Vector2.zero;
