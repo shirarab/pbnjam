@@ -84,15 +84,19 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator SetWinner(PlayerType winner)
     {
         // EventManager.StartEndOfGame((int)winner);
+        DisableObjects(winner);
         if (winner==PlayerType.Jelly)
         {
             jamPlayerAnimator.SetWinAnimation(true);
+            pbPlayerAnimator.SetLoseAnimation(true);
         }
         else
         {
             pbPlayerAnimator.SetWinAnimation(true);
+            jamPlayerAnimator.SetLoseAnimation(true);
         }
         yield return new WaitForSeconds(gameEndWaitTime);
+
         if (winner == PlayerType.Jelly)
         {
             JamGameOverCanvas.gameObject.SetActive(true);
@@ -101,7 +105,7 @@ public class GameManager : Singleton<GameManager>
         {
             PbGameOverCanvas.gameObject.SetActive(true);
         }
-        DisableObjects(winner);
+
     }
     
     private void DisableObjects(PlayerType winner)
@@ -112,10 +116,12 @@ public class GameManager : Singleton<GameManager>
         if (winner==PlayerType.Jelly)
         {
             jamPlayerAnimator.SetWinAnimation(false);
+            pbPlayerAnimator.SetLoseAnimation(false);
         }
         else
         {
             pbPlayerAnimator.SetWinAnimation(false);
+            jamPlayerAnimator.SetLoseAnimation(false);
         }
     }
 
