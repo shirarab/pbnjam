@@ -131,7 +131,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: toaster sprite sheet copy_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 63
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -173,7 +173,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,6 +181,48 @@ TextureImporter:
       bones: []
       spriteID: 4a334813ab616b74686785b905b8efe8
       internalID: -793903616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: toaster sprite sheet copy_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef2072c0ea2e8c84a8b1cff962242153
+      internalID: 646639004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: toaster sprite sheet copy_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3789c5c106ca64f40bd1c24b0fe63841
+      internalID: 756450767
       vertices: []
       indices: 
       edges: []
@@ -199,6 +241,8 @@ TextureImporter:
       toaster sprite sheet copy_0: -1873057012
       toaster sprite sheet copy_1: -867467743
       toaster sprite sheet copy_2: -793903616
+      toaster sprite sheet copy_3: 646639004
+      toaster sprite sheet copy_4: 756450767
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
