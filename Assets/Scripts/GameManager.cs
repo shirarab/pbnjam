@@ -18,7 +18,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float extraGameTime = 10.0f;
     [SerializeField] private AudioSource gameMusic;
     [SerializeField] private AudioSource sfx;
-    
+    [SerializeField] private PlayerAnimator pbPlayerAnimator;
+    [SerializeField] private PlayerAnimator jamPlayerAnimator;
     [SerializeField] private ToastSpawner toastSpawner;
     private bool isGameOver = false;
 
@@ -76,14 +77,22 @@ public class GameManager : Singleton<GameManager>
         breadGrid.ResetGrid();
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
+        StartCoroutine(toastSpawner.SpawnToast());
     }
 
 
     private IEnumerator SetWinner(PlayerType winner)
     {
-        EventManager.StartEndOfGame((int)winner);
+        // EventManager.StartEndOfGame((int)winner);
+        if (winner==PlayerType.Jelly)
+        {
+            jamPlayerAnimator.SetWinAnimation(true);
+        }
+        else
+        {
+            pbPlayerAnimator.SetWinAnimation(true);
+        }
         yield return new WaitForSeconds(gameEndWaitTime);
-
         if (winner == PlayerType.Jelly)
         {
             JamGameOverCanvas.gameObject.SetActive(true);
@@ -92,9 +101,22 @@ public class GameManager : Singleton<GameManager>
         {
             PbGameOverCanvas.gameObject.SetActive(true);
         }
-
+        DisableObjects(winner);
+    }
+    
+    private void DisableObjects(PlayerType winner)
+    {
         pbBall.gameObject.SetActive(false);
         jamBall.gameObject.SetActive(false);
+        toastSpawner.gameObject.SetActive(false);
+        if (winner==PlayerType.Jelly)
+        {
+            jamPlayerAnimator.SetWinAnimation(false);
+        }
+        else
+        {
+            pbPlayerAnimator.SetWinAnimation(false);
+        }
     }
 
     private IEnumerator DelayBallsActivation()

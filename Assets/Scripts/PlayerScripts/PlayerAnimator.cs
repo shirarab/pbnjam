@@ -47,6 +47,11 @@ public class PlayerAnimator : MonoBehaviour
         TriggerAnimation(AnimationState);
         }   
     }
+    
+    public void SetWinAnimation(bool isWinning)
+    {
+        animator.SetBool("winningAnimation", isWinning);
+    }
     #endregion
 
 
