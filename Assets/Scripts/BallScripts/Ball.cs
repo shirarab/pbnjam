@@ -140,4 +140,10 @@ public class Ball : MonoBehaviour
         }
         ResetBall();
     }
+
+    public void StopBall()
+    {
+        rb.velocity = Vector2.zero;
+        ballDirection = Vector2.zero;
+    }
 }
