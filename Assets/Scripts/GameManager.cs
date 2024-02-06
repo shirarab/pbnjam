@@ -20,7 +20,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private AudioSource sfx;
     [SerializeField] private PlayerAnimator pbPlayerAnimator;
     [SerializeField] private PlayerAnimator jamPlayerAnimator;
-    [SerializeField] private ToastSpawner toastSpawner;
+    [SerializeField] private ToastSpawner pbToastSpawner;
+    [SerializeField] private ToastSpawner jamToastSpawner;
     [SerializeField] private Timer timer;
     public AudioClip endSound;
     public AudioClip timerSound;
@@ -33,7 +34,8 @@ public class GameManager : Singleton<GameManager>
         // initialize the game
         breadGrid.GenerateGrid();
         scoreManager.SetNumberOfBreads(breadGrid.GetNumberOfBreads());
-        StartCoroutine(toastSpawner.SpawnToast());
+        StartCoroutine(pbToastSpawner.SpawnToast());
+        StartCoroutine(jamToastSpawner.SpawnToast());
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime + ballsActivationWaitTime));
     }
@@ -84,9 +86,12 @@ public class GameManager : Singleton<GameManager>
         isGameOver = false;
         scoreManager.ResetScore();
         breadGrid.ResetGrid();
+        pbToastSpawner.gameObject.SetActive(true);
+        jamToastSpawner.gameObject.SetActive(true);
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime + ballsActivationWaitTime, isRestart: true));
-        StartCoroutine(toastSpawner.SpawnToast());
+        StartCoroutine(pbToastSpawner.SpawnToast());
+        StartCoroutine(jamToastSpawner.SpawnToast());
     }
 
 
@@ -125,7 +130,8 @@ public class GameManager : Singleton<GameManager>
     {
         pbBall.gameObject.SetActive(false);
         jamBall.gameObject.SetActive(false);
-        toastSpawner.gameObject.SetActive(false);
+        pbToastSpawner.gameObject.SetActive(false);
+        jamToastSpawner.gameObject.SetActive(false);
         if (winner==PlayerType.Jelly)
         {
             jamPlayerAnimator.SetWinAnimation(false);
