@@ -13,7 +13,7 @@ public class EventManager : MonoBehaviour
 	
 	public static void StartEndOfGame(int winner)
 	{
-		Debug.Log("Game Over animation started!");
+		//Debug.Log("Game Over animation started!");
 		GameOverAnimation?.Invoke(winner);
 	}
 }
