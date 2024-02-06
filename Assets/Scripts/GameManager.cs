@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
         scoreManager.SetNumberOfBreads(breadGrid.GetNumberOfBreads());
         StartCoroutine(toastSpawner.SpawnToast());
         StartCoroutine(DelayBallsActivation());
-        StartCoroutine(GameTimer(gameTime)); // + ballsActivationWaitTime
+        StartCoroutine(GameTimer(gameTime + ballsActivationWaitTime));
     }
 
     public void HandleGoalToPlayer(PlayerType player)
@@ -85,7 +85,7 @@ public class GameManager : Singleton<GameManager>
         scoreManager.ResetScore();
         breadGrid.ResetGrid();
         StartCoroutine(DelayBallsActivation());
-        StartCoroutine(GameTimer(gameTime)); //  + ballsActivationWaitTime
+        StartCoroutine(GameTimer(gameTime + ballsActivationWaitTime, isRestart: true));
         StartCoroutine(toastSpawner.SpawnToast());
     }
 
@@ -136,6 +136,7 @@ public class GameManager : Singleton<GameManager>
             pbPlayerAnimator.SetWinAnimation(false);
             jamPlayerAnimator.SetLoseAnimation(false);
         }
+        timer.StopTimer(); // not sure needed here
     }
 
     private IEnumerator DelayBallsActivation()
@@ -147,7 +148,7 @@ public class GameManager : Singleton<GameManager>
         jamBall.ResetBall();
     }
 
-    private IEnumerator GameTimer(float time, bool isExtraTime = false)
+    private IEnumerator GameTimer(float time, bool isExtraTime = false, bool isRestart = false)
     {
         while (true)
         {
@@ -156,7 +157,7 @@ public class GameManager : Singleton<GameManager>
             {
                 timer.AddSecondsToTimer(time);
             }
-            timer.StartTimer();
+            timer.StartTimer(isRestart);
             yield return new WaitForSeconds(time);
             Debug.Log("Game Over");
             timer.StopTimer();
