@@ -110,12 +110,15 @@ public class GameManager : Singleton<GameManager>
         if (winner == PlayerType.Jelly)
         {
             JamGameOverCanvas.gameObject.SetActive(true);
+            jamPlayerAnimator.SetWinAnimation(false);
+            pbPlayerAnimator.SetLoseAnimation(false);
         }
         else
         {
             PbGameOverCanvas.gameObject.SetActive(true);
+            pbPlayerAnimator.SetWinAnimation(false);
+            jamPlayerAnimator.SetLoseAnimation(false);
         }
-
     }
     
     private void DisableObjects(PlayerType winner)
