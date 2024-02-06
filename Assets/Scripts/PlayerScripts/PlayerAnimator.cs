@@ -52,6 +52,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetBool("winningAnimation", isWinning);
     }
+
+    public void SetLoseAnimation(bool isLosing)
+    {
+        animator.SetBool("losingAnimation", isLosing);
+    }
     #endregion
 
 
