@@ -56,7 +56,7 @@ public class ToastSpawner : MonoBehaviour
         {
             pbToast.GetComponent<Transform>().position = pbPoint;
             pbToast.SetActive(true);
-            //TODO? setActive(true) -> Toast.transform.position = Vector2 moveTowards(…) <————————————————-THE OVER OPTION FOR SPAWN
+            //TODO? setActive(true) -> Toast.transform.position = Vector2 moveTowards(…) <————————————————-THE OTHER OPTION FOR SPAWN
             //then: need to add startPosition for the position of the toaster 
             
         }
