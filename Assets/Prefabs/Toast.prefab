@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4807344250500854524}
   - component: {fileID: 4634246289076002653}
   - component: {fileID: 9062424027170487281}
+  - component: {fileID: -4143350559363563826}
   m_Layer: 0
   m_Name: Toast
   m_TagString: Untagged
@@ -169,5 +170,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4f34935954f84491b106d42a5a3d67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4143350559363563826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3280469386518956260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c85c6dd50c84d87905136a7d16a23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
