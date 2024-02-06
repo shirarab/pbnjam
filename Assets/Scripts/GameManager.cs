@@ -22,6 +22,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private PlayerAnimator jamPlayerAnimator;
     [SerializeField] private ToastSpawner toastSpawner;
     [SerializeField] private Timer timer;
+    public AudioClip endSound;
+    public AudioClip timerSound;
     
     private bool isGameOver = false;
 
@@ -47,6 +49,11 @@ public class GameManager : Singleton<GameManager>
     public void PlaySound(AudioClip sound)
     {
         sfx.PlayOneShot(sound);
+    }
+
+    public void PlayTimerSound()
+    {
+        sfx.PlayOneShot(timerSound);
     }
 
     public void UpdateScoreByBread(BreadType ballType, BreadType breadType)
@@ -86,6 +93,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator SetWinner(PlayerType winner)
     {
         // EventManager.StartEndOfGame((int)winner);
+        PlaySound(endSound);
         DisableObjects(winner);
         if (winner==PlayerType.Jelly)
         {

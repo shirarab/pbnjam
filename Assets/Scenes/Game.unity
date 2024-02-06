@@ -11437,6 +11437,8 @@ MonoBehaviour:
   jamPlayerAnimator: {fileID: 1430223351}
   toastSpawner: {fileID: 743449104}
   timer: {fileID: 1166410548}
+  endSound: {fileID: 8300000, guid: 25ca6d8a7ef297e439e2fabd320b4b54, type: 3}
+  timerSound: {fileID: 8300000, guid: 2b8a8f54bd738854ba2d6bc9f18d5237, type: 3}
 --- !u!224 &712657129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11471,7 +11473,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712657127}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
