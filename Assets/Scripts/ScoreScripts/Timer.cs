@@ -20,8 +20,11 @@ public class Timer : MonoBehaviour
     {
         if (stopTimer) return;
         
+        // Debug.Log($"[Timer.Update] currentTime 1: {currentTime}");
         currentTime += Time.deltaTime / gameTime;
-        var normalizedTime = currentTime > 1f ? 1f : currentTime % 1f;
+        currentTime = currentTime > 1f ? 1f : currentTime;
+        // Debug.Log($"[Timer.Update] currentTime 2: {currentTime}");
+        var normalizedTime = currentTime % 1f;
         
         timerKnobTransform.eulerAngles = new Vector3(0, 0, -normalizedTime * rotationDegrees);
         if (timerKnobTransform.eulerAngles.z <= 65 && !timerSoundStarted)
@@ -31,18 +34,25 @@ public class Timer : MonoBehaviour
         }
     }
 
-    public void StartTimer()
+    public void StartTimer(bool isRestart = false)
     {
+        Debug.Log($"[Timer.StartTimer] isRestart: {isRestart}");
+        if (isRestart)
+        {
+            currentTime = 0f;
+        }
         stopTimer = false;
     }
 
     public void StopTimer()
     {
+        Debug.Log($"[Timer.StopTimer]");
         stopTimer = true;
     }
 
     public void AddSecondsToTimer(float seconds)
     {
+        Debug.Log($"[Timer.AddSecondsToTimer]");
         if (seconds > 0)
         {
             currentTime -= seconds / gameTime;
