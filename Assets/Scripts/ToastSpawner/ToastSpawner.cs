@@ -19,6 +19,20 @@ public class ToastSpawner : MonoBehaviour
     [SerializeField] GameObject pbToast;
     [SerializeField] GameObject jamToast;
 
+    #region  ANIMATION————————————————-
+
+    private Animator toastAnimator;
+    [SerializeField]private float toastAnimatiomHelper;
+
+
+    public void TriggerAnimation(bool animationState)
+    {
+        toastAnimator.SetBool("toastAnimationState", animationState);
+    }
+
+
+    #endregion
+
     private void InitializePoints()
     {
         pbPoint = new Vector3(UnityEngine.Random.Range(maxLeft, maxRight), UnityEngine.Random.Range(maxDown, maxTop), 0f);
@@ -49,6 +63,9 @@ public class ToastSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(spawnRate);
+            TriggerAnimation(true);
+            yield return new WaitForSeconds(toastAnimatiomHelper); 
+            TriggerAnimation(false);
             InitializePoints();
             MoveToSpawnPoint();
         }
