@@ -112,8 +112,6 @@ public class GameManager : Singleton<GameManager>
     
     private void DisableObjects(PlayerType winner)
     {
-        pbBall.StopBall();
-        jamBall.StopBall();
         pbBall.gameObject.SetActive(false);
         jamBall.gameObject.SetActive(false);
         toastSpawner.gameObject.SetActive(false);
