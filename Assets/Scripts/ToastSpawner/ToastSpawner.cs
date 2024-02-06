@@ -65,6 +65,7 @@ public class ToastSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
             TriggerAnimation(true);
             yield return new WaitForSeconds(toastAnimatiomHelper); 
+            TriggerAnimation(false);
             InitializePoints();
             MoveToSpawnPoint();
         }
