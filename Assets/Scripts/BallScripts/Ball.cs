@@ -73,12 +73,12 @@ public class Ball : MonoBehaviour
         return ballDirection;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         rb.velocity = rb.velocity.normalized * speed;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(tag: Constants.PLAYER))
         {
@@ -102,7 +102,7 @@ public class Ball : MonoBehaviour
         }
     }
     
-    void LaunchBall()
+    public void LaunchBall()
     {
         // rb.velocity = ballDirection * speed;
         rb.AddForce(-originalBallDirection * speed);

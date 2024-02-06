@@ -14,13 +14,15 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Canvas JamGameOverCanvas;
     [SerializeField] private float gameEndWaitTime = 1f;
     [SerializeField] private float ballsActivationWaitTime = 0.5f;
-    [SerializeField] private float gameTime = 60.0f;
+    [SerializeField] public float gameTime = 60.0f;
     [SerializeField] private float extraGameTime = 10.0f;
     [SerializeField] private AudioSource gameMusic;
     [SerializeField] private AudioSource sfx;
     [SerializeField] private PlayerAnimator pbPlayerAnimator;
     [SerializeField] private PlayerAnimator jamPlayerAnimator;
     [SerializeField] private ToastSpawner toastSpawner;
+    [SerializeField] private Timer timer;
+    
     private bool isGameOver = false;
 
 
@@ -31,7 +33,7 @@ public class GameManager : Singleton<GameManager>
         scoreManager.SetNumberOfBreads(breadGrid.GetNumberOfBreads());
         StartCoroutine(toastSpawner.SpawnToast());
         StartCoroutine(DelayBallsActivation());
-        StartCoroutine(GameTimer(gameTime));
+        StartCoroutine(GameTimer(gameTime)); // + ballsActivationWaitTime
     }
 
     public void HandleGoalToPlayer(PlayerType player)
@@ -76,7 +78,7 @@ public class GameManager : Singleton<GameManager>
         scoreManager.ResetScore();
         breadGrid.ResetGrid();
         StartCoroutine(DelayBallsActivation());
-        StartCoroutine(GameTimer(gameTime));
+        StartCoroutine(GameTimer(gameTime)); //  + ballsActivationWaitTime
         StartCoroutine(toastSpawner.SpawnToast());
     }
 
@@ -128,13 +130,19 @@ public class GameManager : Singleton<GameManager>
         jamBall.ResetBall();
     }
 
-    private IEnumerator GameTimer(float time)
+    private IEnumerator GameTimer(float time, bool isExtraTime = false)
     {
         while (true)
         {
             Debug.Log("Game Timer: " + time);
+            if (isExtraTime)
+            {
+                timer.AddSecondsToTimer(time);
+            }
+            timer.StartTimer();
             yield return new WaitForSeconds(time);
             Debug.Log("Game Over");
+            timer.StopTimer();
             EndGame();
         }
     }
@@ -155,7 +163,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            StartCoroutine(GameTimer(extraGameTime));
+            StartCoroutine(GameTimer(extraGameTime, isExtraTime: true));
             return;
         }
         StartCoroutine(SetWinner(winnerType));
