@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float extraGameTime = 10.0f;
     [SerializeField] private AudioSource gameMusic;
     [SerializeField] private AudioSource sfx;
+    
+    [SerializeField] private ToastSpawner toastSpawner;
     private bool isGameOver = false;
 
 
@@ -26,6 +28,7 @@ public class GameManager : Singleton<GameManager>
         // initialize the game
         breadGrid.GenerateGrid();
         scoreManager.SetNumberOfBreads(breadGrid.GetNumberOfBreads());
+        StartCoroutine(toastSpawner.SpawnToast());
         StartCoroutine(DelayBallsActivation());
         StartCoroutine(GameTimer(gameTime));
     }
@@ -65,27 +68,6 @@ public class GameManager : Singleton<GameManager>
         if (toAdd != null) scoreManager.AddPoints(1, toAdd.Value);
         if (toRemove != null) scoreManager.RemovePoints(1, toRemove.Value);
     }
-
-    // public void IncrementScore(PlayerType playerType)
-    // {
-    //     scoreManager.AddPoints(1, playerType);
-    // }
-    //
-    // public void DecrementScore(PlayerType playerType)
-    // {
-    //     if (isGameOver) return;   
-    //     scoreManager.RemovePoints(1, playerType);
-    // }
-    //
-    //
-    // public void IsGameOver(PlayerType playerType, int currentScore, int maxScore)
-    // {
-    //     if (currentScore >= maxScore)
-    //     {
-    //         isGameOver = true;
-    //         StartCoroutine(SetWinner(playerType));
-    //     }
-    // }
 
     public void ResetGame()
     {
