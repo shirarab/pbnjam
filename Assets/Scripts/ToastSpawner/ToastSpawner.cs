@@ -12,13 +12,8 @@ public class ToastSpawner : MonoBehaviour
     [SerializeField] private float spawnRate = 5.0f;
 
     
-    [SerializeField] private Vector2 pbPoint;
-    [SerializeField] private Vector2 jamPoint;
-    [SerializeField] private Vector2 startPoint;
-
-    private bool spawnFlag; //TODO?
-    
-
+    [SerializeField] private Vector3 pbPoint;
+    [SerializeField] private Vector3 jamPoint;
     [SerializeField] private float speed;
 
     [SerializeField] GameObject pbToast;
@@ -26,27 +21,26 @@ public class ToastSpawner : MonoBehaviour
 
     private void InitializePoints()
     {
-        pbPoint = new Vector2(UnityEngine.Random.Range(maxLeft, maxRight), UnityEngine.Random.Range(maxDown, maxTop));
-        jamPoint = new Vector2(UnityEngine.Random.Range(-maxLeft, -maxRight), UnityEngine.Random.Range(maxDown, maxTop));
+        pbPoint = new Vector3(UnityEngine.Random.Range(maxLeft, maxRight), UnityEngine.Random.Range(maxDown, maxTop), 0f);
+        jamPoint = new Vector3(UnityEngine.Random.Range(-maxLeft, -maxRight), UnityEngine.Random.Range(maxDown, maxTop), 0f);
     }
 
 
     private void MoveToSpawnPoint()
     {
-        Debug.Log("Moving to spawn point");
         // check if pbToast and jamToast are enabled
         // if not, enable them and move them to the pointToGet_1 and pointToGet_2
         if (!pbToast.gameObject.activeSelf) 
         {
-            Debug.Log("pbToast is not active");
+            pbToast.GetComponent<Transform>().position = pbPoint;
             pbToast.SetActive(true);
-            pbToast.transform.position = Vector2.MoveTowards(pbToast.transform.position, pbPoint, speed * Time.deltaTime);
+            
         }
         if (!jamToast.gameObject.activeSelf)
         {
-            Debug.Log("jamToast is not active");
+            jamToast.GetComponent<Transform>().position = jamPoint;
             jamToast.SetActive(true);
-            jamToast.transform.position = Vector2.MoveTowards(jamToast.transform.position, jamPoint, speed * Time.deltaTime);
+            
         }
     }
     
