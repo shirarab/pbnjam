@@ -110,7 +110,9 @@ public class GameManager : Singleton<GameManager>
     {
         while (true)
         {
+            Debug.Log("Game Timer: " + time);
             yield return new WaitForSeconds(time);
+            Debug.Log("Game Over");
             EndGame();
         }
     }
@@ -118,15 +120,22 @@ public class GameManager : Singleton<GameManager>
     private void EndGame()
     {
         var breadCounts = breadGrid.GetBreadCountsByType();
-        var winnerBread = breadCounts.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-
-        if (winnerBread != BreadType.JellyBread && winnerBread != BreadType.PeanutButterBread)
+        PlayerType winnerType;
+        var pbCount = breadCounts[BreadType.PeanutButterBread];
+        var jamCount = breadCounts[BreadType.JellyBread];
+        if (pbCount > jamCount)
+        {
+         winnerType = PlayerType.PeanutButter;   
+        }
+        else if (jamCount > pbCount)
+        {
+            winnerType = PlayerType.Jelly;
+        }
+        else
         {
             StartCoroutine(GameTimer(extraGameTime));
             return;
         }
-
-        var winner = winnerBread == BreadType.JellyBread ? PlayerType.Jelly : PlayerType.PeanutButter;
-        StartCoroutine(SetWinner(winner));
+        StartCoroutine(SetWinner(winnerType));
     }
 }

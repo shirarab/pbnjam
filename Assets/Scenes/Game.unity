@@ -11277,7 +11277,7 @@ MonoBehaviour:
   jamBall: {fileID: 115474049}
   PbGameOverCanvas: {fileID: 1190991035}
   JamGameOverCanvas: {fileID: 1074153536}
-  gameEndWaitTime: 1
+  gameEndWaitTime: 4
   ballsActivationWaitTime: 0.5
   gameTime: 60
   extraGameTime: 10
