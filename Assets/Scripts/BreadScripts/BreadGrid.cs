@@ -13,10 +13,9 @@ namespace BreadScripts
         [SerializeField] private Vector2 breadSize = new(1f, 1f);
         [SerializeField] private Vector3 breadScale = new(1.7f, 1.7f);
         [SerializeField] private RectTransform scoreBar;
+        private const int NumberOfRows = 7;
         
         private HashSet<Bread> allBreads = new();
-
-        private const int SCREEN_HEIGHT = 10;
         
         internal void GenerateGrid()
         {
@@ -27,14 +26,12 @@ namespace BreadScripts
             
             float startX = -(numberOfColumns - 1) * (breadSize.x + margin) / 2f; // same as: -(columns * (breadSize.x + margin)) / 2f + (breadSize.x + margin) / 2f;
             float startY = CalculateStartingYPosition(scoreBarHeight, cameraMain) + margin;
-            
-            int numberOfRows = CalculateNumberOfRows(scoreBarHeight, cameraMain);
 
             for (int col = 0; col < numberOfColumns; col++)
             {
                 float x = startX + col * (breadSize.x + margin);
 
-                for (int row = 0; row < numberOfRows; row++)
+                for (int row = 0; row < NumberOfRows; row++)
                 {
                     float y = startY + row * (breadSize.y + margin);
                     Bread currBread = Instantiate(breadPrefab, new Vector3(x, y, 0f), Quaternion.identity);
@@ -45,20 +42,22 @@ namespace BreadScripts
 
         private int CalculateNumberOfRows(float scoreBarHeight, Camera cameraMain)
         {
-            float screenHeight = !cameraMain.IsUnityNull() ? cameraMain.orthographicSize * 2f : SCREEN_HEIGHT;
-            screenHeight -= scoreBarHeight;
-            return Mathf.FloorToInt(screenHeight / (breadSize.y + margin));
+            // float screenHeight = !cameraMain.IsUnityNull() ? cameraMain.orthographicSize * 2f : SCREEN_HEIGHT;
+            // screenHeight -= scoreBarHeight;
+            // return Mathf.FloorToInt(screenHeight / (breadSize.y + margin));
+            return 7;
         }
         
         private float CalculateStartingYPosition(float scoreBarHeight, Camera cameraMain)
         {
             float centerY = cameraMain.transform.position.y;
             float halfHeight = cameraMain.orthographicSize;
-
+            
             centerY += (scoreBarHeight / 2f);
             halfHeight -= (scoreBarHeight / 2f);
-
-            return centerY - halfHeight + (breadSize.y + margin) / 2f;
+            
+            return centerY - halfHeight + (breadScale.y + margin) / 2f;
+            
         }
         
         public void ResetGrid()
