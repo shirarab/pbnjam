@@ -13514,7 +13514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breadPrefab: {fileID: 4628231518433833112, guid: 5e6a2361b015987498a9fa5bb118797a, type: 3}
   numberOfColumns: 4
-  margin: 0.5
+  margin: 0.2
   breadSize: {x: 1, y: 1}
   breadScale: {x: 1.7, y: 1.7, z: 0}
   scoreBar: {fileID: 730230021}
