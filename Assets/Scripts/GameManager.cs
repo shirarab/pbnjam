@@ -168,6 +168,8 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("Game Over");
             timer.StopTimer();
             EndGame();
+            // stop coroutine
+            yield break;
         }
     }
 
